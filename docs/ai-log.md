@@ -189,3 +189,7 @@ PROMPT 9
 now add the following to the room.java file: Add unique names
 - Prevent removal when non-empty
 - Expose the device list without allowing replacement of the internal collection
+
+PROMPT 10
+
+Please now start generating the smarthome.java file to include the id generation

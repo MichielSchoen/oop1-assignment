@@ -39,7 +39,23 @@ public class SmartHome {
     }
 
     public int addDeviceToRoom(String roomName, Device device) throws RoomNotFoundException {
-        throw new UnsupportedOperationException("Not implemented yet");
+        Objects.requireNonNull(device, "Device must not be null.");
+        Room room = rooms.stream()
+                .filter(existing -> existing.getName().equals(roomName))
+                .findFirst()
+                .orElseThrow(() -> new RoomNotFoundException(roomName));
+
+        int nextId = rooms.stream()
+                .flatMap(existing -> existing.getDevices().stream())
+                .map(Device::getId)
+                .filter(Objects::nonNull)
+                .mapToInt(Integer::intValue)
+                .max()
+                .orElse(0) + 1;
+
+        device.setId(nextId);
+        room.addDevice(device);
+        return nextId;
     }
 
     public boolean removeDevice(int id) {
@@ -47,15 +63,24 @@ public class SmartHome {
     }
 
     public Device getById(int id) throws DeviceNotFoundException {
-        throw new UnsupportedOperationException("Not implemented yet");
+        return rooms.stream()
+                .flatMap(room -> room.getDevices().stream())
+                .filter(device -> Objects.equals(device.getId(), id))
+                .findFirst()
+                .orElseThrow(() -> new DeviceNotFoundException(id));
     }
 
     public List<Device> getAllDevices() {
-        throw new UnsupportedOperationException("Not implemented yet");
+        return rooms.stream()
+                .flatMap(room -> room.getDevices().stream())
+                .toList();
     }
 
     public List<Device> find(java.util.function.Predicate<Device> filter) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        Objects.requireNonNull(filter, "Filter must not be null.");
+        return getAllDevices().stream()
+                .filter(filter)
+                .toList();
     }
 
     public <T extends Device> List<T> findByType(Class<T> type) {
