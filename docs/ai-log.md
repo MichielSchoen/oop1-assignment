@@ -193,3 +193,7 @@ now add the following to the room.java file: Add unique names
 PROMPT 10
 
 Please now start generating the smarthome.java file to include the id generation
+
+PROMPT 11
+
+now add getbyid and find/filter
