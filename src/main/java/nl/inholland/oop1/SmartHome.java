@@ -2,6 +2,7 @@ package nl.inholland.oop1;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -92,11 +93,17 @@ public class SmartHome {
     }
 
     public List<Device> sortedByPowerUsage() {
-        throw new UnsupportedOperationException("Not implemented yet");
+        return getAllDevices().stream()
+                .sorted(Comparator.comparingInt(Device::getPowerUsage)
+                        .reversed()
+                        .thenComparing(Device::getName))
+                .toList();
     }
 
     public int totalPowerUsage() {
-        throw new UnsupportedOperationException("Not implemented yet");
+        return getAllDevices().stream()
+                .mapToInt(Device::getPowerUsage)
+                .sum();
     }
 
     public HomeStats stats() {

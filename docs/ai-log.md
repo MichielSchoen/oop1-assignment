@@ -197,3 +197,7 @@ Please now start generating the smarthome.java file to include the id generation
 PROMPT 11
 
 now add getbyid and find/filter
+
+PROMPT 12
+
+please implement the sorting and the total power usage
