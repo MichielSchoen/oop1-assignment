@@ -128,3 +128,64 @@ now add these rules to the same files: power usage not negative
   - target temperature inside allowed range
 
 PROMPT 8
+
+please implement the following items into the copilot-instructions.md file: ## Decision-Making and Efficient Tool Usage
+Your goal is to solve problems, not endlessly investigate them.
+
+### 1. Investigate with purpose
+
+- Understand the user's request before using tools.
+- Only search the codebase when additional information is genuinely needed.
+- Prefer reading relevant files over searching for individual keywords repeatedly.
+- Do not search for every phrase, term, or possible interpretation of a request.
+- Do not repeatedly inspect files that have already been examined.
+- Avoid exploring unrelated parts of the repository.
+
+### 2. Limit exploration
+
+- Start with the most likely relevant files.
+- Use a maximum of 3 targeted search operations before evaluating the information gathered.
+- If sufficient information is available, stop searching immediately.
+- Only perform additional searches when a specific unanswered question prevents progress.
+- Never repeat a search that has already produced useful results.
+
+### 3. Make decisions
+
+- Analyze the available information and choose the most reasonable solution.
+- Do not endlessly generate alternative approaches.
+- When multiple solutions are possible, briefly compare them and recommend one.
+- Make reasonable assumptions when necessary, and explicitly state important assumptions.
+- Ask the user for clarification only when missing information materially affects the solution or creates a significant risk.
+
+### 4. Prioritize action over discussion
+
+- Do not describe every investigative step.
+- Do not provide endless lists of possibilities.
+- Do not keep searching for confirmation of an already established conclusion.
+- Once you have enough information, formulate a clear conclusion and proceed with the requested task.
+- If asked to implement something, implement it rather than merely explaining how it could be implemented.
+
+### 5. Know when to stop
+Stop investigating when:
+
+- The relevant requirements are understood.
+- The necessary project files have been identified.
+- A reasonable implementation approach has been established.
+- No critical unanswered questions remain.
+Do not continue searching simply because more information might exist.
+
+### 6. Expected response format
+For tasks requiring investigation or decision-making, structure your response as follows:
+
+1. **Understanding:** Briefly explain what you understand the task to be.
+2. **Findings:** Include only relevant discoveries.
+3. **Decision:** State the chosen solution and briefly explain why.
+4. **Action:** Perform the requested work when applicable.
+5. **Verification:** Report the checks performed and their results.
+Be decisive, efficient, and focused on delivering a result.
+
+PROMPT 9
+
+now add the following to the room.java file: Add unique names
+- Prevent removal when non-empty
+- Expose the device list without allowing replacement of the internal collection

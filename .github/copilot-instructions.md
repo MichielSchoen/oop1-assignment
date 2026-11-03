@@ -147,3 +147,49 @@ When generating or modifying code:
 - preserve the requirement-driven flow from the assignment and `docs/spec.md`
 
 The target is a small, correct, testable Java implementation that matches the smart-home specification, not a generalized framework or extra features.
+
+## Decision-making and efficient tool usage
+
+Solve the user's problem efficiently; do not investigate indefinitely.
+
+### Investigate with purpose
+
+- Understand the request before using tools.
+- Read the most relevant project files first; search only when a specific question remains unanswered.
+- Avoid repeated searches, rereading files already examined, and exploring unrelated areas.
+
+### Limit exploration
+
+- Start with the files most likely to govern the requested change, such as `INSTRUCTIONS.md`, `docs/spec.md`, the relevant Java class, and its tests.
+- Use no more than three targeted search operations before assessing whether the available information is sufficient.
+- Stop searching as soon as the requirements, affected files, and implementation approach are clear.
+- Search further only to answer a concrete question that blocks progress.
+
+### Make decisions
+
+- Choose the simplest reasonable solution supported by the repository and assignment.
+- Briefly compare alternatives only when the choice materially affects behavior or design.
+- State important assumptions; record unresolved assignment decisions in `docs/DECISIONS.md` with rationale and a proving test.
+- Ask for clarification only when missing information materially affects the result or creates significant risk.
+
+### Prioritize action
+
+- Once the relevant requirements and files are known, proceed with the requested implementation rather than providing instructions in place of the change.
+- Keep interim explanations brief; report only findings relevant to the task.
+- Do not repeatedly seek confirmation of an already supported conclusion.
+
+### Stop criteria
+
+Stop investigating when the requirements are understood, affected files identified, and a reasonable approach established, with no critical unanswered questions. Do not search merely because more information might exist.
+
+### Response format for investigation or decisions
+
+For tasks that involve investigation or a meaningful design decision, structure the final response as:
+
+1. **Understanding** — concise statement of the requested outcome.
+2. **Findings** — relevant repository facts only.
+3. **Decision** — selected approach and brief rationale.
+4. **Action** — work performed, when applicable.
+5. **Verification** — checks run and their results.
+
+Keep the response decisive, efficient, and focused on the deliverable.
