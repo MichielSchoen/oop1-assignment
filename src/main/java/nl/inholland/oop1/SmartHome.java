@@ -3,6 +3,7 @@ package nl.inholland.oop1;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -60,7 +61,14 @@ public class SmartHome {
     }
 
     public boolean removeDevice(int id) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        for (Room room : rooms) {
+            for (Device device : room.getDevices()) {
+                if (Objects.equals(device.getId(), id)) {
+                    return room.removeDevice(device);
+                }
+            }
+        }
+        return false;
     }
 
     public Device getById(int id) throws DeviceNotFoundException {
@@ -85,11 +93,19 @@ public class SmartHome {
     }
 
     public <T extends Device> List<T> findByType(Class<T> type) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        Objects.requireNonNull(type, "Device type must not be null.");
+        return getAllDevices().stream()
+                .filter(type::isInstance)
+                .map(type::cast)
+                .toList();
     }
 
     public void setTargetTemperature(int id, double targetTemperature) throws DeviceNotFoundException {
-        throw new UnsupportedOperationException("Not implemented yet");
+        Device device = getById(id);
+        if (!(device instanceof ThermostatDevice thermostat)) {
+            throw new IllegalArgumentException("Device with id '" + id + "' is not a thermostat.");
+        }
+        thermostat.setTargetTemperature(targetTemperature);
     }
 
     public List<Device> sortedByPowerUsage() {
@@ -107,7 +123,7 @@ public class SmartHome {
     }
 
     public HomeStats stats() {
-        throw new UnsupportedOperationException("Not implemented yet");
+        return new HomeStats(getAllDevices());
     }
 
     void validateRoomName(Room room, String name) {
@@ -117,12 +133,26 @@ public class SmartHome {
     }
 
     public static class HomeStats {
+        private final double averagePowerUsage;
+        private final Map<String, Integer> countByType;
+
+        private HomeStats(List<Device> devices) {
+            this.averagePowerUsage = devices.stream()
+                    .mapToInt(Device::getPowerUsage)
+                    .average()
+                    .orElse(0.0);
+
+            Map<String, Integer> counts = new LinkedHashMap<>();
+            devices.forEach(device -> counts.merge(device.getType(), 1, Integer::sum));
+            this.countByType = Collections.unmodifiableMap(counts);
+        }
+
         public double getAveragePowerUsage() {
-            throw new UnsupportedOperationException("Not implemented yet");
+            return averagePowerUsage;
         }
 
         public Map<String, Integer> getCountByType() {
-            throw new UnsupportedOperationException("Not implemented yet");
+            return countByType;
         }
     }
 }

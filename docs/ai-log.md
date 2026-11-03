@@ -201,3 +201,7 @@ now add getbyid and find/filter
 PROMPT 12
 
 please implement the sorting and the total power usage
+
+PROMPT 13
+
+now, lastly add the stats and any other methods in smarthome that are not implemented yet
