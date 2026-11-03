@@ -39,12 +39,17 @@ public class ThermostatDevice extends Device {
 
     @Override
     public String getType() {
-        throw new UnsupportedOperationException("Not implemented yet");
+        return "Thermostat";
     }
 
     @Override
     public String describe() {
-        throw new UnsupportedOperationException("Not implemented yet");
+        return "| id: " + getId()
+                + " || name: " + getName()
+                + " || type: " + getType()
+                + " || range: " + range
+                + " || target temperature: " + targetTemperature
+                + " |";
     }
 
     private static double[] parseRange(String range) {

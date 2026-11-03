@@ -11,15 +11,15 @@ public class Device {
     }
 
     public Integer getId() {
-        throw new UnsupportedOperationException("Not implemented yet");
+        return id;
     }
 
     public void setId(Integer id) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        this.id = id;
     }
 
     public String getName() {
-        throw new UnsupportedOperationException("Not implemented yet");
+        return name;
     }
 
     public void setName(String name) {
@@ -30,7 +30,7 @@ public class Device {
     }
 
     public int getPowerUsage() {
-        throw new UnsupportedOperationException("Not implemented yet");
+        return powerUsage;
     }
 
     public void setPowerUsage(int powerUsage) {
@@ -41,15 +41,15 @@ public class Device {
     }
 
     public String getType() {
-        throw new UnsupportedOperationException("Not implemented yet");
+        return "Device";
     }
 
     public String describe() {
-        throw new UnsupportedOperationException("Not implemented yet");
+        return "| id: " + id + " || name: " + name + " || type: " + getType() + " |";
     }
 
     @Override
     public String toString() {
-        throw new UnsupportedOperationException("Not implemented yet");
+        return describe();
     }
 }

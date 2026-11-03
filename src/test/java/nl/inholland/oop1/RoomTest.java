@@ -14,6 +14,15 @@ class RoomTest {
     }
 
     @Test
+    void nameCanBeReadAndChanged() {
+        Room room = new Room("Living room");
+
+        assertEquals("Living room", room.getName());
+        room.setName("Lounge");
+        assertEquals("Lounge", room.getName());
+    }
+
+    @Test
     void deviceListIsImmutableAndIndependentOfInternalCollection() {
         Room room = new Room("Living room");
         Device lamp = new LightDevice("Lamp", 10);

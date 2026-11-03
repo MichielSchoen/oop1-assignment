@@ -7,6 +7,6 @@ public class LightDevice extends Device {
 
     @Override
     public String getType() {
-        throw new UnsupportedOperationException("Not implemented yet");
+        return "Light";
     }
 }
