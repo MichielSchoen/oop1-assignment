@@ -6,23 +6,35 @@ public class ThermostatDevice extends Device {
 
     public ThermostatDevice(String name, int powerUsage, String range) {
         super(name, powerUsage);
+        double[] bounds = parseRange(range);
         this.range = range;
+        this.targetTemperature = bounds[0];
     }
 
     public String getRange() {
-        throw new UnsupportedOperationException("Not implemented yet");
+        return range;
     }
 
     public void setRange(String range) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        double[] bounds = parseRange(range);
+        if (targetTemperature < bounds[0] || targetTemperature > bounds[1]) {
+            throw new IllegalArgumentException("Current target temperature must be within the new range.");
+        }
+        this.range = range;
     }
 
     public double getTargetTemperature() {
-        throw new UnsupportedOperationException("Not implemented yet");
+        return targetTemperature;
     }
 
     public void setTargetTemperature(double targetTemperature) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        double[] bounds = parseRange(range);
+        if (!Double.isFinite(targetTemperature)
+                || targetTemperature < bounds[0]
+                || targetTemperature > bounds[1]) {
+            throw new IllegalArgumentException("Target temperature must be within the thermostat range.");
+        }
+        this.targetTemperature = targetTemperature;
     }
 
     @Override
@@ -33,5 +45,28 @@ public class ThermostatDevice extends Device {
     @Override
     public String describe() {
         throw new UnsupportedOperationException("Not implemented yet");
+    }
+
+    private static double[] parseRange(String range) {
+        if (range == null || range.isEmpty()) {
+            throw new IllegalArgumentException("Temperature range must not be null or empty.");
+        }
+
+        String[] parts = range.split("-", -1);
+        if (parts.length != 2) {
+            throw new IllegalArgumentException("Temperature range must have the format '<min>-<max>'.");
+        }
+
+        try {
+            double minimum = Double.parseDouble(parts[0]);
+            double maximum = Double.parseDouble(parts[1]);
+            if (!Double.isFinite(minimum) || !Double.isFinite(maximum)
+                    || minimum < 5 || maximum > 30 || minimum >= maximum) {
+                throw new IllegalArgumentException("Temperature range must be within 5-30 and min must be less than max.");
+            }
+            return new double[] { minimum, maximum };
+        } catch (NumberFormatException exception) {
+            throw new IllegalArgumentException("Temperature range must have the format '<min>-<max>'.", exception);
+        }
     }
 }

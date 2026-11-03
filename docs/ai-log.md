@@ -110,3 +110,21 @@ Add the core classes without behavior yet:
   - `Room`
   - `SmartHome` 
 Please Only add the most basic skeleton of the core classes
+
+PROMPT 5
+
+please add the checked exceptions, now
+
+PROMPT 6
+
+Implement first: `Device` + `ThermostatDevice`
+- Start with validation rules:
+  - name not null/empty
+
+PROMPT 7
+
+now add these rules to the same files: power usage not negative
+  - thermostat range valid
+  - target temperature inside allowed range
+
+PROMPT 8

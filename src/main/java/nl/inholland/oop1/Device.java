@@ -6,8 +6,8 @@ public class Device {
     private int powerUsage;
 
     public Device(String name, int powerUsage) {
-        this.name = name;
-        this.powerUsage = powerUsage;
+        setName(name);
+        setPowerUsage(powerUsage);
     }
 
     public Integer getId() {
@@ -23,7 +23,10 @@ public class Device {
     }
 
     public void setName(String name) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (name == null || name.isEmpty()) {
+            throw new IllegalArgumentException("Name must not be null or empty.");
+        }
+        this.name = name;
     }
 
     public int getPowerUsage() {
@@ -31,7 +34,10 @@ public class Device {
     }
 
     public void setPowerUsage(int powerUsage) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (powerUsage < 0) {
+            throw new IllegalArgumentException("Power usage must not be negative.");
+        }
+        this.powerUsage = powerUsage;
     }
 
     public String getType() {
