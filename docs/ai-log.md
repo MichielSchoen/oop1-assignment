@@ -33,6 +33,9 @@ Follow these steps:
 The goal is to produce a detailed, structured, and implementation-ready `specs.md` that can serve as the foundation for the subsequent spec-driven development process.
 
 PROMPT 2
+if it were up to you, what is the place youd suggest to start with this project, making sure to take it small steps at a time
+
+PROMPT 3
 
 Your task is to analyze this repository and create a comprehensive `.github/copilot-instructions.md` file that guides GitHub Copilot when working on this project.
 
@@ -97,3 +100,13 @@ Do not modify application source code, project specifications, or unrelated file
 Do not start implementing project features.
 
 Your final result should be a project-specific instruction document that enables GitHub Copilot to understand the repository and work consistently within its established architecture, conventions, and specifications.
+
+PROMPT 4
+
+Add the core classes without behavior yet:
+  - `Device`
+  - `LightDevice`
+  - `ThermostatDevice`
+  - `Room`
+  - `SmartHome` 
+Please Only add the most basic skeleton of the core classes
