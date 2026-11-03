@@ -18,11 +18,11 @@ public class SmartHome {
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
-    public boolean removeRoom(String roomName) {
+    public boolean removeRoom(String roomName) throws RoomNotFoundException, RoomNotEmptyException {
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
-    public int addDeviceToRoom(String roomName, Device device) {
+    public int addDeviceToRoom(String roomName, Device device) throws RoomNotFoundException {
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
@@ -30,7 +30,7 @@ public class SmartHome {
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
-    public Device getById(int id) {
+    public Device getById(int id) throws DeviceNotFoundException {
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
@@ -46,7 +46,7 @@ public class SmartHome {
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
-    public void setTargetTemperature(int id, double targetTemperature) {
+    public void setTargetTemperature(int id, double targetTemperature) throws DeviceNotFoundException {
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
