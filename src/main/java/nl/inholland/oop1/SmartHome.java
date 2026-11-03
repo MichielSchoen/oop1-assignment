@@ -1,8 +1,10 @@
 package nl.inholland.oop1;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class SmartHome {
     private final List<Room> rooms = new ArrayList<>();
@@ -11,15 +13,29 @@ public class SmartHome {
     }
 
     public List<Room> getRooms() {
-        throw new UnsupportedOperationException("Not implemented yet");
+        return Collections.unmodifiableList(new ArrayList<>(rooms));
     }
 
     public void addRoom(Room room) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        Objects.requireNonNull(room, "Room must not be null.");
+        validateRoomName(room, room.getName());
+        room.attachTo(this);
+        rooms.add(room);
     }
 
     public boolean removeRoom(String roomName) throws RoomNotFoundException, RoomNotEmptyException {
-        throw new UnsupportedOperationException("Not implemented yet");
+        Room room = rooms.stream()
+                .filter(existing -> existing.getName().equals(roomName))
+                .findFirst()
+                .orElseThrow(() -> new RoomNotFoundException(roomName));
+        if (!room.getDevices().isEmpty()) {
+            throw new RoomNotEmptyException(room.getName(), room.getDevices().size());
+        }
+        boolean removed = rooms.remove(room);
+        if (removed) {
+            room.detachFrom(this);
+        }
+        return removed;
     }
 
     public int addDeviceToRoom(String roomName, Device device) throws RoomNotFoundException {
@@ -60,6 +76,12 @@ public class SmartHome {
 
     public HomeStats stats() {
         throw new UnsupportedOperationException("Not implemented yet");
+    }
+
+    void validateRoomName(Room room, String name) {
+        if (rooms.stream().anyMatch(existing -> existing != room && existing.getName().equals(name))) {
+            throw new IllegalArgumentException("Room names must be unique.");
+        }
     }
 
     public static class HomeStats {

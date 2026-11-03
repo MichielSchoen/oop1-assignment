@@ -7,28 +7,48 @@ import java.util.List;
 public class Room {
     private String name;
     private final List<Device> devices = new ArrayList<>();
+    private SmartHome home;
 
     public Room(String name) {
-        this.name = name;
+        setName(name);
     }
 
     public String getName() {
-        throw new UnsupportedOperationException("Not implemented yet");
+        return name;
     }
 
     public void setName(String name) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (name == null || name.isEmpty()) {
+            throw new IllegalArgumentException("Room name must not be null or empty.");
+        }
+        if (home != null) {
+            home.validateRoomName(this, name);
+        }
+        this.name = name;
     }
 
     public List<Device> getDevices() {
-        throw new UnsupportedOperationException("Not implemented yet");
+        return Collections.unmodifiableList(new ArrayList<>(devices));
     }
 
     public void addDevice(Device device) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        devices.add(java.util.Objects.requireNonNull(device, "Device must not be null."));
     }
 
     public boolean removeDevice(Device device) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        return devices.remove(device);
+    }
+
+    void attachTo(SmartHome smartHome) {
+        if (home != null && home != smartHome) {
+            throw new IllegalArgumentException("Room already belongs to another home.");
+        }
+        home = smartHome;
+    }
+
+    void detachFrom(SmartHome smartHome) {
+        if (home == smartHome) {
+            home = null;
+        }
     }
 }
