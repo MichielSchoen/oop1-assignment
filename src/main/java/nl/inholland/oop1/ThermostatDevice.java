@@ -1,9 +1,20 @@
 package nl.inholland.oop1;
 
+/**
+ * A device with a bounded temperature range and adjustable target temperature.
+ */
 public class ThermostatDevice extends Device {
     private String range;
     private double targetTemperature;
 
+    /**
+     * Creates a thermostat and initializes its target to the range minimum.
+     *
+     * @param name non-null, non-empty device name
+     * @param powerUsage non-negative power usage in watts
+     * @param range temperature range formatted as {@code "<min>-<max>"}
+     * @throws IllegalArgumentException if device data or the range is invalid
+     */
     public ThermostatDevice(String name, int powerUsage, String range) {
         super(name, powerUsage);
         double[] bounds = parseRange(range);
@@ -11,10 +22,21 @@ public class ThermostatDevice extends Device {
         this.targetTemperature = bounds[0];
     }
 
+    /**
+     * Returns the configured temperature range.
+     *
+     * @return the range in {@code "<min>-<max>"} form
+     */
     public String getRange() {
         return range;
     }
 
+    /**
+     * Changes the temperature range.
+     *
+     * @param range new range formatted as {@code "<min>-<max>"}
+     * @throws IllegalArgumentException if the range is invalid or excludes the current target
+     */
     public void setRange(String range) {
         double[] bounds = parseRange(range);
         if (targetTemperature < bounds[0] || targetTemperature > bounds[1]) {
@@ -23,10 +45,21 @@ public class ThermostatDevice extends Device {
         this.range = range;
     }
 
+    /**
+     * Returns the current target temperature.
+     *
+     * @return target temperature in degrees Celsius
+     */
     public double getTargetTemperature() {
         return targetTemperature;
     }
 
+    /**
+     * Sets the target temperature.
+     *
+     * @param targetTemperature target temperature in degrees Celsius
+     * @throws IllegalArgumentException if the target is non-finite or outside the configured range
+     */
     public void setTargetTemperature(double targetTemperature) {
         double[] bounds = parseRange(range);
         if (!Double.isFinite(targetTemperature)
@@ -37,11 +70,21 @@ public class ThermostatDevice extends Device {
         this.targetTemperature = targetTemperature;
     }
 
+    /**
+     * Returns the thermostat type label.
+     *
+     * @return {@code "Thermostat"}
+     */
     @Override
     public String getType() {
         return "Thermostat";
     }
 
+    /**
+     * Returns the thermostat description, including its range and target.
+     *
+     * @return formatted thermostat description
+     */
     @Override
     public String describe() {
         return "| id: " + getId()

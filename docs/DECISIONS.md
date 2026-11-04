@@ -26,25 +26,5 @@
 - **Question:** When should the required anonymous `Selector` implementation be used instead of a lambda?
 - **Decision:** Use an anonymous class for at least one `Selector` implementation to make the interface contract and its `select` method explicit; use lambdas or method references for short, direct filtering and sorting operations.
 - **Reason:** The assignment requires demonstrating both forms. The anonymous class is educationally useful where naming the implemented operation and its method body is clearer; lambdas remain more concise for simple single-expression behavior.
-- **Proving test:** Add a `SmartHome` filtering test that passes an anonymous `Selector<Device>` and verifies the returned matching devices when the UML `Selector` API is implemented.
+- **Proving test:** `SmartHomeLookupTest.findSupportsAnonymousSelectorImplementation` passes an anonymous `Selector<Device>` and checks the selected result.
 
-## UML API comparison
-
-The UML diagram is the required public API. These core signatures currently match: `SmartHome()`; `addRoom(Room)`; `getRooms()`; `addDeviceToRoom(String, Device)`; `removeDevice(int)`; `getAllDevices()`; `findByType(Class<T>)`; `getById(int)`; `setTargetTemperature(int, double)`; `sortedByPowerUsage()`; `stats()`; `Room(String)`, `getName()`, `getDevices()`, and `addDevice(Device)`; `Device`'s name/id accessors; and the device type/description methods.
-
-The following UML requirements are missing or differ and must be reconciled before the project is complete:
-
-| UML requirement | Current difference |
-|---|---|
-| `Device` is abstract, implements `Describable`, and uses `double` power usage and `setPowerUsage(double)` | `Device` is concrete, does not implement `Describable`, and uses `int` power usage and `setPowerUsage(int)` |
-| `LightDevice(String, double)` | Constructor currently accepts `int` power usage |
-| `ThermostatDevice(String, double, String)`; `getMinimumTemperature()`, `getMaximumTemperature()`, `getTargetTemperature()`, `setTargetTemperature(double)`, `getType()`, and `describe()` | Constructor currently accepts `int` power usage; minimum/maximum getters are missing; extra `getRange()` and `setRange(String)` methods are present |
-| `Room.removeDevice(int)` | Current method accepts a `Device` |
-| `SmartHome.removeRoom(String)` returns `void` | Current method returns `boolean` |
-| `SmartHome.find(Selector<Device>)` and the functional `Selector<T>.select(T)` interface | Current method accepts `Predicate<Device>`; `Selector<T>` is not present |
-| `SmartHome.totalPowerUsage()` returns `double` | Current method returns `int` |
-| `HomeStats(Collection<Device>)` is public | Constructor is private and accepts `List<Device>` |
-| Service API: `SmartHomeService` methods for room/device listing, lookup, add/remove, target temperature, power filtering/sorting/total, and home stats; `SmartHomeServiceImpl(SmartHome)` | `SmartHomeService` and `SmartHomeServiceImpl` are not present |
-| `ConsoleUserInterface(SmartHomeService)` and `start()`; `Application.main(String[])` | `ConsoleUserInterface` and `Application` are not present |
-
-These are API mismatches, not additional design choices. Preserve the UML signatures when reconciling them; keep any extra public methods only when justified by a documented decision.

@@ -221,3 +221,11 @@ PROMPT 16
 PROMPT 17
 
 **Close test gaps.** Ensure business rules and edge cases are covered, including exact exception messages, room/device not-found cases, invalid input, sorting ties, and stats snapshots. The assignment excludes `Application` and the console UI from unit-test requirements, but the UI should still be exercised manually.
+
+PROMPT 18
+
+**Complete documentation.** Add meaningful Javadocs to every public class and method, and verify that the AI log and decisions reflect the actual development choices.
+
+OUTCOME 18
+
+Added Javadocs for the public domain classes, constructors, and methods in `Device`, `LightDevice`, `ThermostatDevice`, `Room`, `SmartHome`, and the custom checked exceptions. Updated the UML comparison to reflect the signatures currently present in the repository, and corrected the anonymous `Selector` proof to refer to `SmartHomeLookupTest.findSupportsAnonymousSelectorImplementation`. Service, selector, UI, and application files already contain class/method documentation. Maven Javadoc generation is the verification step for this documentation pass.

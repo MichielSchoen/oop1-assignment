@@ -8,16 +8,34 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * Manages the rooms and devices in one in-memory smart home.
+ */
 public class SmartHome {
     private final List<Room> rooms = new ArrayList<>();
 
+    /**
+     * Creates an empty smart home.
+     */
     public SmartHome() {
     }
 
+    /**
+     * Returns an unmodifiable snapshot of the home's rooms.
+     *
+     * @return a non-null, unmodifiable list of rooms
+     */
     public List<Room> getRooms() {
         return Collections.unmodifiableList(new ArrayList<>(rooms));
     }
 
+    /**
+     * Adds a room to the home.
+     *
+     * @param room room to add
+     * @throws NullPointerException if {@code room} is null
+     * @throws IllegalArgumentException if another room has the same name or the room belongs to another home
+     */
     public void addRoom(Room room) {
         Objects.requireNonNull(room, "Room must not be null.");
         validateRoomName(room, room.getName());
@@ -25,6 +43,14 @@ public class SmartHome {
         rooms.add(room);
     }
 
+    /**
+     * Removes an empty room by name.
+     *
+     * @param roomName name of the room to remove
+     * @return {@code true} when the room was removed
+     * @throws RoomNotFoundException if no room has the supplied name
+     * @throws RoomNotEmptyException if the room still contains devices
+     */
     public boolean removeRoom(String roomName) throws RoomNotFoundException, RoomNotEmptyException {
         Room room = rooms.stream()
                 .filter(existing -> existing.getName().equals(roomName))
@@ -40,6 +66,15 @@ public class SmartHome {
         return removed;
     }
 
+    /**
+     * Adds a device to a room, assigning the next home-wide identifier.
+     *
+     * @param roomName destination room name
+     * @param device device to add
+     * @return assigned identifier
+     * @throws RoomNotFoundException if the room does not exist
+     * @throws NullPointerException if {@code device} is null
+     */
     public int addDeviceToRoom(String roomName, Device device) throws RoomNotFoundException {
         Objects.requireNonNull(device, "Device must not be null.");
         Room room = rooms.stream()
@@ -60,6 +95,12 @@ public class SmartHome {
         return nextId;
     }
 
+    /**
+     * Removes a device by identifier.
+     *
+     * @param id identifier of the device
+     * @return {@code true} if a device was removed; otherwise {@code false}
+     */
     public boolean removeDevice(int id) {
         for (Room room : rooms) {
             for (Device device : room.getDevices()) {
@@ -71,6 +112,13 @@ public class SmartHome {
         return false;
     }
 
+    /**
+     * Finds a device by identifier.
+     *
+     * @param id identifier to search for
+     * @return the matching device
+     * @throws DeviceNotFoundException if no device has that identifier
+     */
     public Device getById(int id) throws DeviceNotFoundException {
         return rooms.stream()
                 .flatMap(room -> room.getDevices().stream())
@@ -79,12 +127,24 @@ public class SmartHome {
                 .orElseThrow(() -> new DeviceNotFoundException(id));
     }
 
+    /**
+     * Returns all devices currently assigned to rooms.
+     *
+     * @return a new, non-null list of devices
+     */
     public List<Device> getAllDevices() {
         return rooms.stream()
                 .flatMap(room -> room.getDevices().stream())
                 .toList();
     }
 
+    /**
+     * Selects devices satisfying the supplied selector.
+     *
+     * @param filter selector applied to each device
+     * @return a new, non-null list of matching devices
+     * @throws NullPointerException if {@code filter} is null
+     */
     public List<Device> find(Selector<Device> filter) {
         Objects.requireNonNull(filter, "Filter must not be null.");
         return getAllDevices().stream()
@@ -92,6 +152,14 @@ public class SmartHome {
                 .toList();
     }
 
+    /**
+     * Finds devices assignable to the requested class.
+     *
+     * @param <T> requested device type
+     * @param type class token for the requested device type
+     * @return a new, non-null list of matching devices
+     * @throws NullPointerException if {@code type} is null
+     */
     public <T extends Device> List<T> findByType(Class<T> type) {
         Objects.requireNonNull(type, "Device type must not be null.");
         return getAllDevices().stream()
@@ -100,6 +168,14 @@ public class SmartHome {
                 .toList();
     }
 
+    /**
+     * Sets a thermostat's target temperature.
+     *
+     * @param id device identifier
+     * @param targetTemperature requested temperature in degrees Celsius
+     * @throws DeviceNotFoundException if no device has the identifier
+     * @throws IllegalArgumentException if the identified device is not a thermostat or the target is out of range
+     */
     public void setTargetTemperature(int id, double targetTemperature) throws DeviceNotFoundException {
         Device device = getById(id);
         if (!(device instanceof ThermostatDevice thermostat)) {
@@ -108,6 +184,11 @@ public class SmartHome {
         thermostat.setTargetTemperature(targetTemperature);
     }
 
+    /**
+     * Returns all devices ordered by descending power usage, then by name.
+     *
+     * @return a new, non-null sorted device list
+     */
     public List<Device> sortedByPowerUsage() {
         return getAllDevices().stream()
                 .sorted(Comparator.comparingInt(Device::getPowerUsage)
@@ -116,22 +197,42 @@ public class SmartHome {
                 .toList();
     }
 
+    /**
+     * Calculates total power usage across all current devices.
+     *
+     * @return sum of device power usage in watts
+     */
     public int totalPowerUsage() {
         return getAllDevices().stream()
                 .mapToInt(Device::getPowerUsage)
                 .sum();
     }
 
+    /**
+     * Creates a statistics snapshot from the current devices.
+     *
+     * @return snapshot of average power usage and counts by type
+     */
     public HomeStats stats() {
         return new HomeStats(getAllDevices());
     }
 
+    /**
+     * Verifies that a room name is unique in this home.
+     *
+     * @param room room being named
+     * @param name proposed room name
+     * @throws IllegalArgumentException if another room already has the name
+     */
     void validateRoomName(Room room, String name) {
         if (rooms.stream().anyMatch(existing -> existing != room && existing.getName().equals(name))) {
             throw new IllegalArgumentException("Room names must be unique.");
         }
     }
 
+    /**
+     * Immutable statistics snapshot for a smart home.
+     */
     public static class HomeStats {
         private final double averagePowerUsage;
         private final Map<String, Integer> countByType;
@@ -147,10 +248,20 @@ public class SmartHome {
             this.countByType = Collections.unmodifiableMap(counts);
         }
 
+        /**
+         * Returns the arithmetic mean of device power usage.
+         *
+         * @return average usage in watts, or {@code 0.0} if the snapshot has no devices
+         */
         public double getAveragePowerUsage() {
             return averagePowerUsage;
         }
 
+        /**
+         * Returns the number of devices for each type present in this snapshot.
+         *
+         * @return an unmodifiable map of device type labels to counts
+         */
         public Map<String, Integer> getCountByType() {
             return countByType;
         }
