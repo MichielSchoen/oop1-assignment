@@ -212,4 +212,8 @@ please make the changes that the uml api comparison identified only to the files
 
 PROMPT 15
 
-*Implement and test the service layer.** Add the UML-required service interface and `SmartHomeServiceImpl`; inject `SmartHome` through its constructor. Test the implementation in isolation using Mockito, as required.
+**Implement and test the service layer.** Add the UML-required service interface and `SmartHomeServiceImpl`; inject `SmartHome` through its constructor. Test the implementation in isolation using Mockito, as required.
+
+PROMPT 16 
+
+**Build the console workflow and wiring.** Implement `ConsoleUserInterface` to match `console-user-interface.png`, handle invalid input without exiting, and have `Application` create and connect the objects.
