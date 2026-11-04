@@ -61,6 +61,25 @@ class SmartHomeLookupTest {
     }
 
     @Test
+    void findSupportsAnonymousSelectorImplementation() throws RoomNotFoundException {
+        SmartHome home = new SmartHome();
+        home.addRoom(new Room("Living room"));
+        Device selected = new LightDevice("Lamp", 10);
+        Device ignored = new LightDevice("Spotlight", 50);
+        home.addDeviceToRoom("Living room", selected);
+        home.addDeviceToRoom("Living room", ignored);
+
+        List<Device> results = home.find(new Selector<Device>() {
+            @Override
+            public boolean select(Device device) {
+                return device.getPowerUsage() < 20;
+            }
+        });
+
+        assertEquals(List.of(selected), results);
+    }
+
+    @Test
     void findRejectsNullFilterAndEmptyHomeReturnsEmptyLists() {
         SmartHome home = new SmartHome();
 

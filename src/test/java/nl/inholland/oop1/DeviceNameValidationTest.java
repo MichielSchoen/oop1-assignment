@@ -53,6 +53,15 @@ class DeviceNameValidationTest {
     }
 
     @Test
+    void thermostatAcceptsInclusiveTemperatureRangeBoundaries() {
+        ThermostatDevice thermostat = new ThermostatDevice("Thermostat", 10, "5-30");
+
+        assertEquals("5-30", thermostat.getRange());
+        assertEquals(5.0, thermostat.getTargetTemperature());
+        assertDoesNotThrow(() -> thermostat.setTargetTemperature(30.0));
+    }
+
+    @Test
     void thermostatRangeSetterRejectsInvalidRangeAndPreservesCurrentRange() {
         ThermostatDevice thermostat = new ThermostatDevice("Thermostat", 10, "16-24");
 

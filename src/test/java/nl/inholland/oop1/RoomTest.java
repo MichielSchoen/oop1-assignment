@@ -59,6 +59,20 @@ class RoomTest {
     }
 
     @Test
+    void missingRoomOperationsThrowRoomNotFoundWithRequiredMessage() {
+        SmartHome home = new SmartHome();
+        RoomNotFoundException removeException = assertThrows(
+                RoomNotFoundException.class,
+                () -> home.removeRoom("Office"));
+        RoomNotFoundException addDeviceException = assertThrows(
+                RoomNotFoundException.class,
+                () -> home.addDeviceToRoom("Office", new LightDevice("Lamp", 10)));
+
+        assertEquals("Room 'Office' not found.", removeException.getMessage());
+        assertEquals("Room 'Office' not found.", addDeviceException.getMessage());
+    }
+
+    @Test
     void homeCanRemoveEmptyRoom() throws RoomNotFoundException, RoomNotEmptyException {
         SmartHome home = new SmartHome();
         home.addRoom(new Room("Living room"));

@@ -217,3 +217,7 @@ PROMPT 15
 PROMPT 16 
 
 **Build the console workflow and wiring.** Implement `ConsoleUserInterface` to match `console-user-interface.png`, handle invalid input without exiting, and have `Application` create and connect the objects.
+
+PROMPT 17
+
+**Close test gaps.** Ensure business rules and edge cases are covered, including exact exception messages, room/device not-found cases, invalid input, sorting ties, and stats snapshots. The assignment excludes `Application` and the console UI from unit-test requirements, but the UI should still be exercised manually.
