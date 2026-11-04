@@ -205,3 +205,11 @@ please implement the sorting and the total power usage
 PROMPT 13
 
 now, lastly add the stats and any other methods in smarthome that are not implemented yet
+
+PROMPT 14
+
+please make the changes that the uml api comparison identified only to the files that already exist, do not create more files
+
+PROMPT 15
+
+*Implement and test the service layer.** Add the UML-required service interface and `SmartHomeServiceImpl`; inject `SmartHome` through its constructor. Test the implementation in isolation using Mockito, as required.

@@ -85,10 +85,10 @@ public class SmartHome {
                 .toList();
     }
 
-    public List<Device> find(java.util.function.Predicate<Device> filter) {
+    public List<Device> find(Selector<Device> filter) {
         Objects.requireNonNull(filter, "Filter must not be null.");
         return getAllDevices().stream()
-                .filter(filter)
+                .filter(filter::select)
                 .toList();
     }
 
