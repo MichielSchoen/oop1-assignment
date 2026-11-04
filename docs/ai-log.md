@@ -226,6 +226,72 @@ PROMPT 18
 
 **Complete documentation.** Add meaningful Javadocs to every public class and method, and verify that the AI log and decisions reflect the actual development choices.
 
+OUTCOMES 1–17
+
+### Prompt 1 — Project specification
+
+Created `docs/spec.md` from `INSTRUCTIONS.md`, organizing the assignment requirements into functional behavior, constraints, workflows, exceptions, testing, acceptance criteria, and open decisions. No application code was implemented as part of this step.
+
+### Prompt 2 — Suggested starting point
+
+Recommended a small-step sequence beginning with domain validation, then rooms and SmartHome operations, followed by service/UI work. This was guidance only; no files were changed.
+
+### Prompt 3 — Copilot repository instructions
+
+Created `.github/copilot-instructions.md` describing the observed Java/Maven setup, project layout, assignment constraints, coding/testing expectations, and spec-driven workflow.
+
+### Prompt 4 — Core class skeletons
+
+Created initial `Device`, `LightDevice`, `ThermostatDevice`, `Room`, and `SmartHome` skeletons in `nl.inholland.oop1`, with placeholder methods. The initial skeletons were intentionally incomplete.
+
+### Prompt 5 — Checked exceptions
+
+Added checked device-not-found, room-not-found, and room-not-empty exceptions with the required message formats, and declared the applicable exceptions on SmartHome operations. `mvn clean test` passed at that point.
+
+### Prompts 6–7 — Device and thermostat validation
+
+Implemented device name and non-negative power validation, thermostat range validation, minimum-temperature target initialization, and target-range validation. Added tests to the existing device validation test class; the targeted test run passed.
+
+### Prompt 8 — Efficient Copilot workflow instructions
+
+Extended `.github/copilot-instructions.md` with the requested guidance on purposeful investigation, bounded searches, practical decisions, prioritizing implementation, stop criteria, and response format.
+
+### Prompt 9 — Room rules
+
+Added room-name validation and an unmodifiable snapshot from `Room.getDevices()`. Wired room-name uniqueness and non-empty-room removal protection through `SmartHome`; added room tests. The targeted room test run passed.
+
+### Prompt 10 — Device ID generation
+
+Implemented home-wide ID generation in `SmartHome.addDeviceToRoom`, overriding preset IDs and assigning `1` to the first device. Added tests for first ID, cross-room sequencing, preset-ID replacement, and an unknown room; all targeted tests passed.
+
+### Prompt 11 — Device lookup and filtering
+
+Implemented `getById`, `getAllDevices`, and `find`, including the required missing-device exception and null-filter behavior. Added lookup/filter tests; the combined lookup and ID tests passed.
+
+### Prompt 12 — Sorting and power total
+
+Implemented descending power-use sorting with name as the tie-breaker, and total power usage. Added tests for ordering, ties, multiple rooms, and the empty-home total; all targeted tests passed.
+
+### Prompt 13 — Remaining SmartHome operations and statistics
+
+Implemented device removal, generic type lookup, thermostat target updates, and snapshot statistics. Recorded the choices for non-thermostat target-setting and zero-count type entries in `docs/DECISIONS.md`. The full suite passed at that point (33 tests).
+
+### Prompt 14 — UML API comparison
+
+Compared the domain API with the UML and recorded the differences and ID/anonymous-selector decisions in `docs/DECISIONS.md`. API-alignment work was attempted in existing domain files. Follow-up inspection showed that repository contents and signatures had changed between steps, so the recorded comparison needed later reconciliation against the live checkout; it should not be treated as proof that every UML signature was aligned.
+
+### Prompt 15 — Service layer
+
+Added the service interface and implementation with constructor-injected `SmartHome`, along with the functional `Selector` API and an anonymous selector for power filtering. Added Mockito-based service delegation tests. The targeted service tests passed, followed by a full suite of 40 passing tests.
+
+### Prompt 16 — Console workflow and application wiring
+
+Implemented the menu-driven console workflow and application startup wiring. Manually exercised invalid menu input, unknown device IDs, malformed numeric input, and invalid thermostat ranges; each displayed an error and returned to the menu. `mvn test` passed all 40 tests.
+
+### Prompt 17 — Business-rule test gaps
+
+Added tests for missing-room exception messages, inclusive thermostat range boundaries, and anonymous `Selector` filtering. Manually exercised invalid console input and menu recovery. `mvn verify` passed all 43 tests and generated the JaCoCo report.
+
 OUTCOME 18
 
-Added Javadocs for the public domain classes, constructors, and methods in `Device`, `LightDevice`, `ThermostatDevice`, `Room`, `SmartHome`, and the custom checked exceptions. Updated the UML comparison to reflect the signatures currently present in the repository, and corrected the anonymous `Selector` proof to refer to `SmartHomeLookupTest.findSupportsAnonymousSelectorImplementation`. Service, selector, UI, and application files already contain class/method documentation. Maven Javadoc generation is the verification step for this documentation pass.
+Added Javadocs for the public domain classes, constructors, and methods in `Device`, `LightDevice`, `ThermostatDevice`, `Room`, `SmartHome`, and the custom checked exceptions. Updated the UML comparison and corrected the anonymous `Selector` proof to refer to `SmartHomeLookupTest.findSupportsAnonymousSelectorImplementation`. `mvn javadoc:javadoc` completed successfully at that time; after later repository changes, rerun it and recheck all public API documentation before considering documentation complete.
