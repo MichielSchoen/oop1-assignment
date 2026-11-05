@@ -102,7 +102,7 @@ public class ConsoleUserInterface {
     private void addLightDevice() throws RoomNotFoundException {
         String roomName = readLine("Room name: ");
         String name = readLine("Device name: ");
-        Double powerUsage = readDouble("Power usage (W): ");
+        Double powerUsage = readDouble("Power usage (W, decimals allowed): ");
         if (roomName != null && name != null && powerUsage != null) {
             int id = smartHomeService.addLightDevice(roomName, new LightDevice(name, powerUsage));
             System.out.println("Added device with id " + id + ".");
@@ -112,7 +112,7 @@ public class ConsoleUserInterface {
     private void addThermostatDevice() throws RoomNotFoundException {
         String roomName = readLine("Room name: ");
         String name = readLine("Device name: ");
-        Double powerUsage = readDouble("Power usage (W): ");
+        Double powerUsage = readDouble("Power usage (W, decimals allowed): ");
         String range = readLine("Temperature range (min-max): ");
         if (roomName != null && name != null && powerUsage != null && range != null) {
             int id = smartHomeService.addThermostatDevice(
@@ -133,7 +133,7 @@ public class ConsoleUserInterface {
     }
 
     private void findDevicesByPowerUsage() {
-        Double maximumPowerUsage = readDouble("Maximum power usage (W): ");
+        Double maximumPowerUsage = readDouble("Maximum power usage (W, decimals allowed): ");
         if (maximumPowerUsage != null) {
             List<Device> devices = smartHomeService.findDevicesWithPowerUsageLessThan(maximumPowerUsage);
             if (devices.isEmpty()) {
@@ -186,7 +186,11 @@ public class ConsoleUserInterface {
             return null;
         }
         try {
-            return Double.valueOf(input.trim());
+            double value = Double.parseDouble(input.trim());
+            if (!Double.isFinite(value)) {
+                throw new IllegalArgumentException("Please enter a finite number.");
+            }
+            return value;
         } catch (NumberFormatException exception) {
             throw new IllegalArgumentException("Please enter a number.", exception);
         }

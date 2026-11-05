@@ -62,7 +62,7 @@ public interface SmartHomeService {
     /**
      * Finds devices whose power usage is below the supplied maximum.
      *
-     * @param max maximum power usage, exclusive
+     * @param max exclusive maximum power usage in watts; fractional values are supported
      * @return matching devices
      */
     List<Device> findDevicesWithPowerUsageLessThan(double max);
@@ -77,7 +77,7 @@ public interface SmartHomeService {
     /**
      * Gets the sum of all device power usage.
      *
-     * @return total power usage
+     * @return total power usage in watts, including fractional values
      */
     double getTotalPowerUsage();
 

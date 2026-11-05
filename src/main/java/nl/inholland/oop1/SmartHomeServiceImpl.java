@@ -58,11 +58,11 @@ public class SmartHomeServiceImpl implements SmartHomeService {
 
     /** {@inheritDoc} */
     @Override
-    public List<Device> findDevicesWithPowerUsageLessThan(double max) {
+    public List<Device> findDevicesWithPowerUsageLessThan(double maximumPowerUsage) {
         return smartHome.find(new Selector<>() {
             @Override
             public boolean select(Device device) {
-                return device.getPowerUsage() < max;
+                return device.getPowerUsage() < maximumPowerUsage;
             }
         });
     }

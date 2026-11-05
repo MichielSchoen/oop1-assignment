@@ -48,8 +48,8 @@ class SmartHomeServiceImplTest {
 
     @Test
     void addingDeviceTypesDelegatesAndReturnsAssignedIds() throws RoomNotFoundException {
-        LightDevice light = new LightDevice("Lamp", 10);
-        ThermostatDevice thermostat = new ThermostatDevice("Thermostat", 5, "16-24");
+        LightDevice light = new LightDevice("Lamp", 10.25);
+        ThermostatDevice thermostat = new ThermostatDevice("Thermostat", 5.75, "16-24");
         when(smartHome.addDeviceToRoom("Living room", light)).thenReturn(4);
         when(smartHome.addDeviceToRoom("Kitchen", thermostat)).thenReturn(5);
 
@@ -74,11 +74,11 @@ class SmartHomeServiceImplTest {
 
     @Test
     void powerUsageFilterUsesSelectorAndDelegatesToHome() {
-        Device lowUsage = new LightDevice("Lamp", 10);
-        Device highUsage = new LightDevice("Heater", 100);
+        Device lowUsage = new LightDevice("Lamp", 10.25);
+        Device highUsage = new LightDevice("Heater", 100.75);
         when(smartHome.find(any())).thenReturn(List.of(lowUsage));
 
-        assertEquals(List.of(lowUsage), service.findDevicesWithPowerUsageLessThan(50));
+        assertEquals(List.of(lowUsage), service.findDevicesWithPowerUsageLessThan(10.5));
         verify(smartHome).find(argThat(selector ->
                 selector.select(lowUsage) && !selector.select(highUsage)));
     }
