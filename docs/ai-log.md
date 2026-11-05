@@ -355,3 +355,11 @@ Ensure public classes and methods have complete Javadocs and that `docs/DECISION
 OUTCOME 26
 
 Audited public API documentation and updated numeric validation and service contract details, immutable result descriptions, and exception message documentation. Recorded the deliberate rejection of non-finite numeric values and added tests for non-finite thermostat bounds and targets. Logged the earlier timed-out UI exercise accurately as unverified, without claiming it passed.
+
+PROMPT 27
+
+Run `mvn test`, `mvn javadoc:javadoc`, and `mvn verify`; review `target/site/jacoco/index.html`, and confirm `mvn verify` succeeds from a clean clone. Keep the work in small commits with meaningful messages, as required by the assignment.
+
+OUTCOME 27
+
+Ran `mvn test` (48 tests passed), `mvn javadoc:javadoc` (success), and `mvn verify` (48 tests passed; JaCoCo report generated). Reviewed `target/site/jacoco/index.html`, which reports 63% instruction coverage and 45% branch coverage. Created a fresh local clone from the clean `main` HEAD and confirmed `mvn verify` succeeds there with all 48 tests. Recorded these validation results in this focused documentation change.
