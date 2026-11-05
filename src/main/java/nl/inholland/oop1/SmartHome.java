@@ -47,11 +47,10 @@ public class SmartHome {
      * Removes an empty room by name.
      *
      * @param roomName name of the room to remove
-     * @return {@code true} when the room was removed
      * @throws RoomNotFoundException if no room has the supplied name
      * @throws RoomNotEmptyException if the room still contains devices
      */
-    public boolean removeRoom(String roomName) throws RoomNotFoundException, RoomNotEmptyException {
+    public void removeRoom(String roomName) throws RoomNotFoundException, RoomNotEmptyException {
         Room room = rooms.stream()
                 .filter(existing -> existing.getName().equals(roomName))
                 .findFirst()
@@ -59,11 +58,8 @@ public class SmartHome {
         if (!room.getDevices().isEmpty()) {
             throw new RoomNotEmptyException(room.getName(), room.getDevices().size());
         }
-        boolean removed = rooms.remove(room);
-        if (removed) {
-            room.detachFrom(this);
-        }
-        return removed;
+        rooms.remove(room);
+        room.detachFrom(this);
     }
 
     /**
@@ -105,7 +101,7 @@ public class SmartHome {
         for (Room room : rooms) {
             for (Device device : room.getDevices()) {
                 if (Objects.equals(device.getId(), id)) {
-                    return room.removeDevice(device);
+                    return room.removeDevice(id);
                 }
             }
         }

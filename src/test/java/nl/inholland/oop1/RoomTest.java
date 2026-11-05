@@ -1,6 +1,7 @@
 package nl.inholland.oop1;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -32,6 +33,18 @@ class RoomTest {
         room.addDevice(lamp);
         assertTrue(devices.isEmpty());
         assertEquals(1, room.getDevices().size());
+    }
+
+    @Test
+    void removeDeviceRemovesByIdAndReportsWhetherItWasPresent() {
+        Room room = new Room("Living room");
+        Device lamp = new LightDevice("Lamp", 10);
+        lamp.setId(7);
+        room.addDevice(lamp);
+
+        assertTrue(room.removeDevice(7));
+        assertTrue(room.getDevices().isEmpty());
+        assertFalse(room.removeDevice(7));
     }
 
     @Test
@@ -77,6 +90,7 @@ class RoomTest {
         SmartHome home = new SmartHome();
         home.addRoom(new Room("Living room"));
 
-        assertTrue(home.removeRoom("Living room"));
+        home.removeRoom("Living room");
+        assertTrue(home.getRooms().isEmpty());
     }
 }

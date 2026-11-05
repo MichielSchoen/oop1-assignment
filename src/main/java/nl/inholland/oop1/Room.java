@@ -67,13 +67,19 @@ public class Room {
     }
 
     /**
-     * Removes the specified device from this room.
+     * Removes the device with the specified identifier from this room.
      *
-     * @param device device to remove
+     * @param id identifier of the device to remove
      * @return {@code true} if the room contained and removed the device
      */
-    public boolean removeDevice(Device device) {
-        return devices.remove(device);
+    public boolean removeDevice(int id) {
+        for (int index = 0; index < devices.size(); index++) {
+            if (java.util.Objects.equals(devices.get(index).getId(), id)) {
+                devices.remove(index);
+                return true;
+            }
+        }
+        return false;
     }
 
     void attachTo(SmartHome smartHome) {

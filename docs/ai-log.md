@@ -314,4 +314,12 @@ Add the UML’s minimum- and maximum-temperature accessors, retaining range vali
 
 OUTCOME 21
 
-Added the UML-required `getMinimumTemperature()` and `getMaximumTemperature()` accessors, storing validated bounds for target-temperature checks. Removed the non-UML public `getRange()` and `setRange()` methods; the original range string remains private to preserve thermostat description formatting. Updated tests for integer and decimal bounds while retaining constructor-range validation and target-temperature boundary behavior.
+Added UML-required minimum- and maximum-temperature accessors to `ThermostatDevice`, removed the extra public range getter and setter, and updated tests for decimal bounds and target-temperature validation.
+
+PROMPT 22
+
+Change `Room.removeDevice` to remove by ID and `SmartHome.removeRoom` to return `void`, preserving the checked exceptions and exact messages. Update callers and tests.
+
+OUTCOME 22
+
+Aligned `Room.removeDevice(int)` and `SmartHome.removeRoom(String)` with the UML. Device removal returns whether the matching ID was removed; room removal returns `void` and continues to throw the existing checked exceptions with their exact messages. Updated removal tests and confirmed the service and console callers already used room removal as a void operation.
