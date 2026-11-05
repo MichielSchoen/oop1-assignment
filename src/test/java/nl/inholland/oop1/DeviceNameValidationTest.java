@@ -53,6 +53,7 @@ class DeviceNameValidationTest {
         assertThrows(IllegalArgumentException.class, () -> new ThermostatDevice("Thermostat", 10, "16-31"));
         assertThrows(IllegalArgumentException.class, () -> new ThermostatDevice("Thermostat", 10, "24-16"));
         assertThrows(IllegalArgumentException.class, () -> new ThermostatDevice("Thermostat", 10, "low-high"));
+        assertThrows(IllegalArgumentException.class, () -> new ThermostatDevice("Thermostat", 10, "NaN-24"));
     }
 
     @Test
@@ -91,5 +92,6 @@ class DeviceNameValidationTest {
         assertThrows(IllegalArgumentException.class, () -> thermostat.setTargetTemperature(15.9));
         assertThrows(IllegalArgumentException.class, () -> thermostat.setTargetTemperature(24.1));
         assertThrows(IllegalArgumentException.class, () -> thermostat.setTargetTemperature(Double.NaN));
+        assertThrows(IllegalArgumentException.class, () -> thermostat.setTargetTemperature(Double.POSITIVE_INFINITY));
     }
 }

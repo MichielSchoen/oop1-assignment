@@ -15,7 +15,8 @@ public class ThermostatDevice extends Device {
      * @param name non-null, non-empty device name
      * @param powerUsage finite, non-negative power usage in watts
      * @param range temperature range formatted as {@code "<min>-<max>"}
-     * @throws IllegalArgumentException if device data or the range is invalid
+     * @throws IllegalArgumentException if device data is invalid, or the range is malformed, non-finite,
+     *         outside 5-30 degrees Celsius, or has a minimum not below its maximum
      */
     public ThermostatDevice(String name, double powerUsage, String range) {
         super(name, powerUsage);

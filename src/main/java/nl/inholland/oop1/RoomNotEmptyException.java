@@ -2,6 +2,7 @@ package nl.inholland.oop1;
 
 /**
  * Indicates that a room could not be removed because it contains devices.
+ * The exception message is {@code "Room '<name>' still contains <deviceCount> device(s)."}.
  */
 public class RoomNotEmptyException extends Exception {
     /**

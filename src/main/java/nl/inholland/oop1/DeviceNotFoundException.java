@@ -2,6 +2,7 @@ package nl.inholland.oop1;
 
 /**
  * Indicates that a requested device identifier is not present in the home.
+ * The exception message is {@code "Device with id '<id>' not found."}.
  */
 public class DeviceNotFoundException extends Exception {
     /**

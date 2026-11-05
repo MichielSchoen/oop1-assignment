@@ -9,7 +9,7 @@ public class LightDevice extends Device {
      *
      * @param name non-null, non-empty device name
      * @param powerUsage finite, non-negative power usage in watts
-     * @throws IllegalArgumentException if the name is null or empty, or power usage is negative
+     * @throws IllegalArgumentException if the name is null or empty, or power usage is negative or not finite
      */
     public LightDevice(String name, double powerUsage) {
         super(name, powerUsage);

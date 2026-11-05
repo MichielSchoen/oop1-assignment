@@ -28,3 +28,9 @@
 - **Reason:** The assignment requires demonstrating both forms. The anonymous class is educationally useful where naming the implemented operation and its method body is clearer; lambdas remain more concise for simple single-expression behavior.
 - **Proving test:** `SmartHomeLookupTest.findSupportsAnonymousSelectorImplementation` passes an anonymous `Selector<Device>` and checks the selected result.
 
+## Rejecting non-finite numeric values
+
+- **Question:** The assignment explicitly rejects negative power usage and out-of-range thermostat targets, but does not specify how NaN or infinity should be handled.
+- **Decision:** Reject non-finite device power usage, thermostat range bounds, and thermostat target temperatures with `IllegalArgumentException`.
+- **Reason:** NaN and infinity are not meaningful watts or temperatures and could produce misleading sorting, totals, averages, and validation results.
+- **Proving tests:** `DeviceNameValidationTest.constructorAndSetterRejectNegativePowerUsage`, `DeviceNameValidationTest.thermostatConstructorRejectsInvalidRanges`, and `DeviceNameValidationTest.thermostatRejectsTargetsOutsideRange`.

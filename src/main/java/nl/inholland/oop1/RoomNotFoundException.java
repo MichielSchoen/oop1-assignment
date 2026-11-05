@@ -2,6 +2,7 @@ package nl.inholland.oop1;
 
 /**
  * Indicates that a requested room name is not present in the home.
+ * The exception message is {@code "Room '<name>' not found."}.
  */
 public class RoomNotFoundException extends Exception {
     /**

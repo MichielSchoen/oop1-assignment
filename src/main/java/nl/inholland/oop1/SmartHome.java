@@ -171,7 +171,8 @@ public class SmartHome {
      * @param id device identifier
      * @param targetTemperature requested temperature in degrees Celsius
      * @throws DeviceNotFoundException if no device has the identifier
-     * @throws IllegalArgumentException if the identified device is not a thermostat or the target is out of range
+     * @throws IllegalArgumentException if the identified device is not a thermostat, or the target is non-finite
+     *         or outside the thermostat's configured range
      */
     public void setTargetTemperature(int id, double targetTemperature) throws DeviceNotFoundException {
         Device device = getById(id);
@@ -238,7 +239,7 @@ public class SmartHome {
          * Creates an immutable statistics snapshot from the supplied devices.
          *
          * @param devices devices included in the snapshot
-         * @throws NullPointerException if {@code devices} is null
+         * @throws NullPointerException if {@code devices} is null or contains a null device
          */
         public HomeStats(Collection<Device> devices) {
             Objects.requireNonNull(devices, "Devices must not be null.");

@@ -16,6 +16,7 @@ public class ConsoleUserInterface {
      * Creates a console user interface backed by the supplied service.
      *
      * @param smartHomeService service used to manage the home
+     * @throws NullPointerException if {@code smartHomeService} is null
      */
     public ConsoleUserInterface(SmartHomeService smartHomeService) {
         this.smartHomeService = Objects.requireNonNull(smartHomeService, "Smart home service must not be null.");
@@ -24,6 +25,7 @@ public class ConsoleUserInterface {
 
     /**
      * Displays the menu and handles commands until the user exits or input ends.
+     * Invalid input and expected domain errors are reported before the menu is shown again.
      */
     public void start() {
         System.out.println("Welcome to the Smart House Application!");

@@ -339,3 +339,19 @@ Keep Mockito tests for the service and verify core validation, ID generation, ro
 OUTCOME 24
 
 Audited the existing domain tests for validation, first and cross-room ID generation, all checked not-found exception messages, sorting ties, and immutable stats snapshots. Preserved the Mockito-based service tests, anonymous `Selector` test, and production lambda/method-reference usage. Added a Mockito service test verifying checked not-found exceptions propagate with their exact messages.
+
+PROMPT 25
+
+Exercise the menu against `console-user-interface.png`, including malformed numeric input, unknown IDs/rooms, invalid thermostat ranges and targets, and recovery to the menu.
+
+OUTCOME 25
+
+Attempted to launch `nl.inholland.oop1.Application` through the Java debugger. Startup was not confirmed after the timeout, and the follow-up check found no active debug session. The menu scenarios were therefore not exercised; no manual UI behavior is claimed as verified.
+
+PROMPT 26
+
+Ensure public classes and methods have complete Javadocs and that `docs/DECISIONS.md` and `docs/ai-log.md` describe the choices and work accurately.
+
+OUTCOME 26
+
+Audited public API documentation and updated numeric validation and service contract details, immutable result descriptions, and exception message documentation. Recorded the deliberate rejection of non-finite numeric values and added tests for non-finite thermostat bounds and targets. Logged the earlier timed-out UI exercise accurately as unverified, without claiming it passed.

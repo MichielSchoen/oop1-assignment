@@ -9,7 +9,7 @@ public interface SmartHomeService {
     /**
      * Fetches all rooms and their devices.
      *
-     * @return a list of rooms
+     * @return an unmodifiable snapshot of the rooms, or an empty list if there are no rooms
      */
     List<Room> fetchAllRoomsAndDevices();
 
@@ -29,6 +29,7 @@ public interface SmartHomeService {
      * @param lightDevice light to add
      * @return assigned device ID
      * @throws RoomNotFoundException if the room does not exist
+     * @throws NullPointerException if {@code lightDevice} is null
      */
     int addLightDevice(String roomName, LightDevice lightDevice) throws RoomNotFoundException;
 
@@ -39,6 +40,7 @@ public interface SmartHomeService {
      * @param thermostatDevice thermostat to add
      * @return assigned device ID
      * @throws RoomNotFoundException if the room does not exist
+     * @throws NullPointerException if {@code thermostatDevice} is null
      */
     int addThermostatDevice(String roomName, ThermostatDevice thermostatDevice) throws RoomNotFoundException;
 
@@ -46,7 +48,7 @@ public interface SmartHomeService {
      * Removes a device by its ID.
      *
      * @param id device ID
-     * @return {@code true} if a device was removed
+     * @return {@code true} if a device was removed; otherwise {@code false}
      */
     boolean removeDevice(int id);
 
@@ -56,6 +58,7 @@ public interface SmartHomeService {
      * @param id thermostat ID
      * @param target target temperature
      * @throws DeviceNotFoundException if no device has the ID
+     * @throws IllegalArgumentException if the device is not a thermostat or the target is non-finite or out of range
      */
     void setTargetTemperature(int id, double target) throws DeviceNotFoundException;
 
@@ -63,14 +66,14 @@ public interface SmartHomeService {
      * Finds devices whose power usage is below the supplied maximum.
      *
      * @param max exclusive maximum power usage in watts; fractional values are supported
-     * @return matching devices
+     * @return a non-null list of matching devices, empty if none match
      */
     List<Device> findDevicesWithPowerUsageLessThan(double max);
 
     /**
      * Gets all devices sorted by power usage.
      *
-     * @return devices sorted by descending power usage
+     * @return a non-null list sorted by descending power usage and then by name
      */
     List<Device> getDevicesSortedByPowerUsage();
 
@@ -84,7 +87,7 @@ public interface SmartHomeService {
     /**
      * Gets a statistics snapshot for the home.
      *
-     * @return current home statistics
+     * @return an immutable snapshot of the current home statistics
      */
     SmartHome.HomeStats getHomeStats();
 
@@ -92,6 +95,7 @@ public interface SmartHomeService {
      * Adds an empty room.
      *
      * @param roomName room name
+     * @throws IllegalArgumentException if the room name is null or empty, or duplicates an existing room
      */
     void addRoom(String roomName);
 
