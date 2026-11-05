@@ -4,7 +4,9 @@ package nl.inholland.oop1;
  * A device with a bounded temperature range and adjustable target temperature.
  */
 public class ThermostatDevice extends Device {
-    private String range;
+    private final String temperatureRange;
+    private final double minimumTemperature;
+    private final double maximumTemperature;
     private double targetTemperature;
 
     /**
@@ -18,31 +20,28 @@ public class ThermostatDevice extends Device {
     public ThermostatDevice(String name, double powerUsage, String range) {
         super(name, powerUsage);
         double[] bounds = parseRange(range);
-        this.range = range;
+        this.temperatureRange = range;
+        this.minimumTemperature = bounds[0];
+        this.maximumTemperature = bounds[1];
         this.targetTemperature = bounds[0];
     }
 
     /**
-     * Returns the configured temperature range.
+     * Returns the minimum allowed temperature.
      *
-     * @return the range in {@code "<min>-<max>"} form
+     * @return minimum temperature in degrees Celsius
      */
-    public String getRange() {
-        return range;
+    public double getMinimumTemperature() {
+        return minimumTemperature;
     }
 
     /**
-     * Changes the temperature range.
+     * Returns the maximum allowed temperature.
      *
-     * @param range new range formatted as {@code "<min>-<max>"}
-     * @throws IllegalArgumentException if the range is invalid or excludes the current target
+     * @return maximum temperature in degrees Celsius
      */
-    public void setRange(String range) {
-        double[] bounds = parseRange(range);
-        if (targetTemperature < bounds[0] || targetTemperature > bounds[1]) {
-            throw new IllegalArgumentException("Current target temperature must be within the new range.");
-        }
-        this.range = range;
+    public double getMaximumTemperature() {
+        return maximumTemperature;
     }
 
     /**
@@ -61,10 +60,9 @@ public class ThermostatDevice extends Device {
      * @throws IllegalArgumentException if the target is non-finite or outside the configured range
      */
     public void setTargetTemperature(double targetTemperature) {
-        double[] bounds = parseRange(range);
         if (!Double.isFinite(targetTemperature)
-                || targetTemperature < bounds[0]
-                || targetTemperature > bounds[1]) {
+                || targetTemperature < minimumTemperature
+                || targetTemperature > maximumTemperature) {
             throw new IllegalArgumentException("Target temperature must be within the thermostat range.");
         }
         this.targetTemperature = targetTemperature;
@@ -90,7 +88,7 @@ public class ThermostatDevice extends Device {
         return "| id: " + getId()
                 + " || name: " + getName()
                 + " || type: " + getType()
-                + " || range: " + range
+                + " || range: " + temperatureRange
                 + " || target temperature: " + targetTemperature
                 + " |";
     }

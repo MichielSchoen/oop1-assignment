@@ -59,23 +59,26 @@ class DeviceNameValidationTest {
     void thermostatAcceptsInclusiveTemperatureRangeBoundaries() {
         ThermostatDevice thermostat = new ThermostatDevice("Thermostat", 10, "5-30");
 
-        assertEquals("5-30", thermostat.getRange());
+        assertEquals(5.0, thermostat.getMinimumTemperature());
+        assertEquals(30.0, thermostat.getMaximumTemperature());
         assertEquals(5.0, thermostat.getTargetTemperature());
         assertDoesNotThrow(() -> thermostat.setTargetTemperature(30.0));
     }
 
     @Test
-    void thermostatRangeSetterRejectsInvalidRangeAndPreservesCurrentRange() {
-        ThermostatDevice thermostat = new ThermostatDevice("Thermostat", 10, "16-24");
+    void thermostatTemperatureAccessorsSupportDecimalBounds() {
+        ThermostatDevice thermostat = new ThermostatDevice("Thermostat", 10, "16.5-23.5");
 
-        assertThrows(IllegalArgumentException.class, () -> thermostat.setRange("16-16"));
-        assertEquals("16-24", thermostat.getRange());
+        assertEquals(16.5, thermostat.getMinimumTemperature());
+        assertEquals(23.5, thermostat.getMaximumTemperature());
     }
 
     @Test
     void thermostatStartsAtMinimumAndAcceptsTargetsWithinRange() {
         ThermostatDevice thermostat = new ThermostatDevice("Thermostat", 10, "16.5-23.5");
 
+        assertEquals(16.5, thermostat.getMinimumTemperature());
+        assertEquals(23.5, thermostat.getMaximumTemperature());
         assertEquals(16.5, thermostat.getTargetTemperature());
         assertDoesNotThrow(() -> thermostat.setTargetTemperature(23.5));
         assertEquals(23.5, thermostat.getTargetTemperature());

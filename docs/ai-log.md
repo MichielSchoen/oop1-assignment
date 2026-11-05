@@ -307,3 +307,11 @@ Reviewed the current assignment/spec requirements and repository contents. The r
 PROMPT 20
 
 Make `Device` abstract and implement `Describable`; change power-usage fields, accessors, and constructors to `double`. Update device tests to instantiate concrete device types.
+
+PROMPT 21
+
+Add the UML’s minimum- and maximum-temperature accessors, retaining range validation and target-temperature behavior. Remove or justify extra public range methods, and update tests accordingly.
+
+OUTCOME 21
+
+Added the UML-required `getMinimumTemperature()` and `getMaximumTemperature()` accessors, storing validated bounds for target-temperature checks. Removed the non-UML public `getRange()` and `setRange()` methods; the original range string remains private to preserve thermostat description formatting. Updated tests for integer and decimal bounds while retaining constructor-range validation and target-temperature boundary behavior.
