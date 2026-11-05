@@ -323,3 +323,11 @@ Change `Room.removeDevice` to remove by ID and `SmartHome.removeRoom` to return 
 OUTCOME 22
 
 Aligned `Room.removeDevice(int)` and `SmartHome.removeRoom(String)` with the UML. Device removal returns whether the matching ID was removed; room removal returns `void` and continues to throw the existing checked exceptions with their exact messages. Updated removal tests and confirmed the service and console callers already used room removal as a void operation.
+
+PROMPT 23
+
+Change `totalPowerUsage()` to return `double` and make `HomeStats(Collection<Device>)` public. Check that stats remain immutable snapshots and handle an empty home as specified.
+
+OUTCOME 23
+
+Confirmed `totalPowerUsage()` and the service API already return `double`. Made `SmartHome.HomeStats(Collection<Device>)` public as required by the UML, preserving calculated immutable values and an unmodifiable type-count map. Added tests for direct-constructor snapshots, source/device mutation after construction, unmodifiable counts, and empty collections; clarified the empty total expectation as `0.0`.

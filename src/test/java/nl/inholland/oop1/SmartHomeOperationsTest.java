@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.ArrayList;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
 
@@ -70,6 +71,29 @@ class SmartHomeOperationsTest {
     @Test
     void emptyHomeStatsHaveZeroAverageAndNoTypeCounts() {
         SmartHome.HomeStats stats = new SmartHome().stats();
+
+        assertEquals(0.0, stats.getAveragePowerUsage());
+        assertTrue(stats.getCountByType().isEmpty());
+    }
+
+    @Test
+    void homeStatsConstructorCreatesImmutableSnapshot() {
+        LightDevice lamp = new LightDevice("Lamp", 10.5);
+        ThermostatDevice thermostat = new ThermostatDevice("Thermostat", 5.5, "16-24");
+        ArrayList<Device> devices = new ArrayList<>(java.util.List.of(lamp, thermostat));
+
+        SmartHome.HomeStats stats = new SmartHome.HomeStats(devices);
+        devices.clear();
+        lamp.setPowerUsage(100);
+
+        assertEquals(8.0, stats.getAveragePowerUsage());
+        assertEquals(Map.of("Light", 1, "Thermostat", 1), stats.getCountByType());
+        assertThrows(UnsupportedOperationException.class, () -> stats.getCountByType().clear());
+    }
+
+    @Test
+    void homeStatsConstructorHandlesEmptyCollection() {
+        SmartHome.HomeStats stats = new SmartHome.HomeStats(java.util.List.of());
 
         assertEquals(0.0, stats.getAveragePowerUsage());
         assertTrue(stats.getCountByType().isEmpty());

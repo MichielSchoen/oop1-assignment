@@ -27,7 +27,7 @@ class SmartHomePowerUsageTest {
     @Test
     void totalPowerUsageSumsAllRoomsAndIsZeroForEmptyHome() throws RoomNotFoundException {
         SmartHome home = new SmartHome();
-        assertEquals(0, home.totalPowerUsage());
+        assertEquals(0.0, home.totalPowerUsage());
 
         home.addRoom(new Room("Living room"));
         home.addRoom(new Room("Kitchen"));

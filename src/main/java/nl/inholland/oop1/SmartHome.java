@@ -1,6 +1,7 @@
 package nl.inholland.oop1;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
@@ -233,7 +234,14 @@ public class SmartHome {
         private final double averagePowerUsage;
         private final Map<String, Integer> countByType;
 
-        private HomeStats(List<Device> devices) {
+        /**
+         * Creates an immutable statistics snapshot from the supplied devices.
+         *
+         * @param devices devices included in the snapshot
+         * @throws NullPointerException if {@code devices} is null
+         */
+        public HomeStats(Collection<Device> devices) {
+            Objects.requireNonNull(devices, "Devices must not be null.");
             this.averagePowerUsage = devices.stream()
                     .mapToDouble(Device::getPowerUsage)
                     .average()
@@ -241,7 +249,7 @@ public class SmartHome {
 
             Map<String, Integer> counts = new LinkedHashMap<>();
             devices.forEach(device -> counts.merge(device.getType(), 1, Integer::sum));
-            this.countByType = Collections.unmodifiableMap(counts);
+            this.countByType = Collections.unmodifiableMap(new LinkedHashMap<>(counts));
         }
 
         /**
