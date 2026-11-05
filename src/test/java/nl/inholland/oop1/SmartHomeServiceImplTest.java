@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -44,6 +45,24 @@ class SmartHomeServiceImplTest {
         assertEquals(device, service.searchDeviceById(3));
         verify(smartHome).getRooms();
         verify(smartHome).getById(3);
+    }
+
+    @Test
+    void notFoundExceptionsPropagateWithTheirExactMessages() throws Exception {
+        when(smartHome.getById(404)).thenThrow(new DeviceNotFoundException(404));
+        doThrow(new RoomNotFoundException("Office")).when(smartHome).removeRoom("Office");
+        doThrow(new RoomNotEmptyException("Living room", 2)).when(smartHome).removeRoom("Living room");
+
+        DeviceNotFoundException deviceException = assertThrows(
+                DeviceNotFoundException.class, () -> service.searchDeviceById(404));
+        RoomNotFoundException roomException = assertThrows(
+                RoomNotFoundException.class, () -> service.removeRoom("Office"));
+        RoomNotEmptyException nonEmptyException = assertThrows(
+                RoomNotEmptyException.class, () -> service.removeRoom("Living room"));
+
+        assertEquals("Device with id '404' not found.", deviceException.getMessage());
+        assertEquals("Room 'Office' not found.", roomException.getMessage());
+        assertEquals("Room 'Living room' still contains 2 device(s).", nonEmptyException.getMessage());
     }
 
     @Test

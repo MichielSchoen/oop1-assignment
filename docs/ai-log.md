@@ -331,3 +331,11 @@ Change `totalPowerUsage()` to return `double` and make `HomeStats(Collection<Dev
 OUTCOME 23
 
 Confirmed `totalPowerUsage()` and the service API already return `double`. Made `SmartHome.HomeStats(Collection<Device>)` public as required by the UML, preserving calculated immutable values and an unmodifiable type-count map. Added tests for direct-constructor snapshots, source/device mutation after construction, unmodifiable counts, and empty collections; clarified the empty total expectation as `0.0`.
+
+PROMPT 24
+
+Keep Mockito tests for the service and verify core validation, ID generation, room/device not-found cases, exact exception messages, sorting ties, and stats snapshots. Preserve the anonymous `Selector` test and required lambda/method-reference usage.
+
+OUTCOME 24
+
+Audited the existing domain tests for validation, first and cross-room ID generation, all checked not-found exception messages, sorting ties, and immutable stats snapshots. Preserved the Mockito-based service tests, anonymous `Selector` test, and production lambda/method-reference usage. Added a Mockito service test verifying checked not-found exceptions propagate with their exact messages.
