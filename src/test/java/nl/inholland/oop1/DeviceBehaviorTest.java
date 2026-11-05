@@ -8,21 +8,30 @@ import org.junit.jupiter.api.Test;
 class DeviceBehaviorTest {
     @Test
     void deviceAccessorsAndDescriptionUseCurrentState() {
-        Device device = new Device("Lamp", 12);
+        Device device = new LightDevice("Lamp", 12);
 
         assertNull(device.getId());
         assertEquals("Lamp", device.getName());
         assertEquals(12, device.getPowerUsage());
-        assertEquals("| id: null || name: Lamp || type: Device |", device.describe());
+        assertEquals("| id: null || name: Lamp || type: Light |", device.describe());
         assertEquals(device.describe(), device.toString());
 
         device.setId(7);
         device.setName("Desk lamp");
-        device.setPowerUsage(15);
+        device.setPowerUsage(15.5);
 
         assertEquals(7, device.getId());
         assertEquals("Desk lamp", device.getName());
-        assertEquals(15, device.getPowerUsage());
+        assertEquals(15.5, device.getPowerUsage());
+    }
+
+    @Test
+    void powerUsageSupportsFractionalWatts() {
+        LightDevice light = new LightDevice("Lamp", 12.75);
+
+        assertEquals(12.75, light.getPowerUsage());
+        light.setPowerUsage(8.25);
+        assertEquals(8.25, light.getPowerUsage());
     }
 
     @Test

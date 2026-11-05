@@ -88,11 +88,11 @@ class SmartHomeServiceImplTest {
         List<Device> sorted = List.of(new LightDevice("Lamp", 10));
         SmartHome.HomeStats stats = org.mockito.Mockito.mock(SmartHome.HomeStats.class);
         when(smartHome.sortedByPowerUsage()).thenReturn(sorted);
-        when(smartHome.totalPowerUsage()).thenReturn(12);
+        when(smartHome.totalPowerUsage()).thenReturn(12.5);
         when(smartHome.stats()).thenReturn(stats);
 
         assertEquals(sorted, service.getDevicesSortedByPowerUsage());
-        assertEquals(12.0, service.getTotalPowerUsage());
+        assertEquals(12.5, service.getTotalPowerUsage());
         assertEquals(stats, service.getHomeStats());
         verify(smartHome).sortedByPowerUsage();
         verify(smartHome).totalPowerUsage();

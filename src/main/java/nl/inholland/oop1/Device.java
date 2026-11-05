@@ -3,19 +3,19 @@ package nl.inholland.oop1;
 /**
  * Base representation of a named device with an identifier and power usage.
  */
-public class Device {
+public abstract class Device implements Describable {
     private Integer id;
     private String name;
-    private int powerUsage;
+    private double powerUsage;
 
     /**
      * Creates a device with no assigned identifier.
      *
      * @param name non-null, non-empty device name
-     * @param powerUsage non-negative power usage in watts
+     * @param powerUsage finite, non-negative power usage in watts
      * @throws IllegalArgumentException if the name is null or empty, or power usage is negative
      */
-    public Device(String name, int powerUsage) {
+    public Device(String name, double powerUsage) {
         setName(name);
         setPowerUsage(powerUsage);
     }
@@ -65,19 +65,19 @@ public class Device {
      *
      * @return power usage in watts
      */
-    public int getPowerUsage() {
+    public double getPowerUsage() {
         return powerUsage;
     }
 
     /**
      * Changes the device's power usage.
      *
-     * @param powerUsage non-negative power usage in watts
-     * @throws IllegalArgumentException if {@code powerUsage} is negative
+     * @param powerUsage finite, non-negative power usage in watts
+     * @throws IllegalArgumentException if {@code powerUsage} is negative or not finite
      */
-    public void setPowerUsage(int powerUsage) {
-        if (powerUsage < 0) {
-            throw new IllegalArgumentException("Power usage must not be negative.");
+    public void setPowerUsage(double powerUsage) {
+        if (!Double.isFinite(powerUsage) || powerUsage < 0) {
+            throw new IllegalArgumentException("Power usage must be finite and non-negative.");
         }
         this.powerUsage = powerUsage;
     }
@@ -85,17 +85,16 @@ public class Device {
     /**
      * Returns the device type label.
      *
-     * @return the type label {@code "Device"}; subclasses may provide a more specific label
+     * @return the concrete device type label
      */
-    public String getType() {
-        return "Device";
-    }
+    public abstract String getType();
 
     /**
      * Returns the formatted description of this device.
      *
      * @return a description containing the identifier, name, and type
      */
+    @Override
     public String describe() {
         return "| id: " + id + " || name: " + name + " || type: " + getType() + " |";
     }

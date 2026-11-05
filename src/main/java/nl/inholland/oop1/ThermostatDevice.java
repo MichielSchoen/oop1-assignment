@@ -11,11 +11,11 @@ public class ThermostatDevice extends Device {
      * Creates a thermostat and initializes its target to the range minimum.
      *
      * @param name non-null, non-empty device name
-     * @param powerUsage non-negative power usage in watts
+     * @param powerUsage finite, non-negative power usage in watts
      * @param range temperature range formatted as {@code "<min>-<max>"}
      * @throws IllegalArgumentException if device data or the range is invalid
      */
-    public ThermostatDevice(String name, int powerUsage, String range) {
+    public ThermostatDevice(String name, double powerUsage, String range) {
         super(name, powerUsage);
         double[] bounds = parseRange(range);
         this.range = range;

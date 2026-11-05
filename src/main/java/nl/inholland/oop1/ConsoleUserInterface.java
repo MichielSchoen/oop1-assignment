@@ -102,7 +102,7 @@ public class ConsoleUserInterface {
     private void addLightDevice() throws RoomNotFoundException {
         String roomName = readLine("Room name: ");
         String name = readLine("Device name: ");
-        Integer powerUsage = readInteger("Power usage (W): ");
+        Double powerUsage = readDouble("Power usage (W): ");
         if (roomName != null && name != null && powerUsage != null) {
             int id = smartHomeService.addLightDevice(roomName, new LightDevice(name, powerUsage));
             System.out.println("Added device with id " + id + ".");
@@ -112,7 +112,7 @@ public class ConsoleUserInterface {
     private void addThermostatDevice() throws RoomNotFoundException {
         String roomName = readLine("Room name: ");
         String name = readLine("Device name: ");
-        Integer powerUsage = readInteger("Power usage (W): ");
+        Double powerUsage = readDouble("Power usage (W): ");
         String range = readLine("Temperature range (min-max): ");
         if (roomName != null && name != null && powerUsage != null && range != null) {
             int id = smartHomeService.addThermostatDevice(

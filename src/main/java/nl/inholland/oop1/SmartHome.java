@@ -191,7 +191,7 @@ public class SmartHome {
      */
     public List<Device> sortedByPowerUsage() {
         return getAllDevices().stream()
-                .sorted(Comparator.comparingInt(Device::getPowerUsage)
+                .sorted(Comparator.comparingDouble(Device::getPowerUsage)
                         .reversed()
                         .thenComparing(Device::getName))
                 .toList();
@@ -202,9 +202,9 @@ public class SmartHome {
      *
      * @return sum of device power usage in watts
      */
-    public int totalPowerUsage() {
+    public double totalPowerUsage() {
         return getAllDevices().stream()
-                .mapToInt(Device::getPowerUsage)
+                .mapToDouble(Device::getPowerUsage)
                 .sum();
     }
 
@@ -239,7 +239,7 @@ public class SmartHome {
 
         private HomeStats(List<Device> devices) {
             this.averagePowerUsage = devices.stream()
-                    .mapToInt(Device::getPowerUsage)
+                    .mapToDouble(Device::getPowerUsage)
                     .average()
                     .orElse(0.0);
 

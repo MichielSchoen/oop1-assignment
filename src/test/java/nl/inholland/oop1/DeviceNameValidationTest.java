@@ -9,13 +9,13 @@ import org.junit.jupiter.api.Test;
 class DeviceNameValidationTest {
     @Test
     void constructorRejectsNullOrEmptyName() {
-        assertThrows(IllegalArgumentException.class, () -> new Device(null, 10));
-        assertThrows(IllegalArgumentException.class, () -> new Device("", 10));
+        assertThrows(IllegalArgumentException.class, () -> new LightDevice(null, 10));
+        assertThrows(IllegalArgumentException.class, () -> new LightDevice("", 10));
     }
 
     @Test
     void setterRejectsNullOrEmptyName() {
-        Device device = new Device("Lamp", 10);
+        Device device = new LightDevice("Lamp", 10);
 
         assertThrows(IllegalArgumentException.class, () -> device.setName(null));
         assertThrows(IllegalArgumentException.class, () -> device.setName(""));
@@ -29,17 +29,20 @@ class DeviceNameValidationTest {
 
     @Test
     void nonEmptyNameIsAccepted() {
-        assertDoesNotThrow(() -> new Device("Lamp", 10));
+        assertDoesNotThrow(() -> new LightDevice("Lamp", 10));
         assertDoesNotThrow(() -> new ThermostatDevice("Thermostat", 10, "16-24"));
     }
 
     @Test
     void constructorAndSetterRejectNegativePowerUsage() {
-        assertThrows(IllegalArgumentException.class, () -> new Device("Lamp", -1));
+        assertThrows(IllegalArgumentException.class, () -> new LightDevice("Lamp", -1));
         assertThrows(IllegalArgumentException.class, () -> new ThermostatDevice("Thermostat", -1, "16-24"));
+        assertThrows(IllegalArgumentException.class, () -> new LightDevice("Lamp", Double.NaN));
+        assertThrows(IllegalArgumentException.class, () -> new LightDevice("Lamp", Double.POSITIVE_INFINITY));
 
-        Device device = new Device("Lamp", 10);
+        Device device = new LightDevice("Lamp", 10);
         assertThrows(IllegalArgumentException.class, () -> device.setPowerUsage(-1));
+        assertThrows(IllegalArgumentException.class, () -> device.setPowerUsage(Double.NaN));
     }
 
     @Test

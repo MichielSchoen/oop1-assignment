@@ -11,10 +11,10 @@ class SmartHomePowerUsageTest {
     void sortedByPowerUsageOrdersDescendingThenByName() throws RoomNotFoundException {
         SmartHome home = new SmartHome();
         home.addRoom(new Room("Living room"));
-        Device low = new LightDevice("Low", 10);
-        Device equalB = new LightDevice("Zeta", 50);
-        Device high = new LightDevice("High", 80);
-        Device equalA = new LightDevice("Alpha", 50);
+        Device low = new LightDevice("Low", 10.25);
+        Device equalB = new LightDevice("Zeta", 50.5);
+        Device high = new LightDevice("High", 80.75);
+        Device equalA = new LightDevice("Alpha", 50.5);
         home.addDeviceToRoom("Living room", low);
         home.addDeviceToRoom("Living room", equalB);
         home.addDeviceToRoom("Living room", high);
@@ -31,10 +31,10 @@ class SmartHomePowerUsageTest {
 
         home.addRoom(new Room("Living room"));
         home.addRoom(new Room("Kitchen"));
-        home.addDeviceToRoom("Living room", new LightDevice("Lamp", 20));
-        home.addDeviceToRoom("Kitchen", new ThermostatDevice("Thermostat", 7, "16-24"));
+        home.addDeviceToRoom("Living room", new LightDevice("Lamp", 20.25));
+        home.addDeviceToRoom("Kitchen", new ThermostatDevice("Thermostat", 7.5, "16-24"));
 
-        assertEquals(27, home.totalPowerUsage());
+        assertEquals(27.75, home.totalPowerUsage());
     }
 
     @Test

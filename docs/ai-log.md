@@ -295,3 +295,15 @@ Added tests for missing-room exception messages, inclusive thermostat range boun
 OUTCOME 18
 
 Added Javadocs for the public domain classes, constructors, and methods in `Device`, `LightDevice`, `ThermostatDevice`, `Room`, `SmartHome`, and the custom checked exceptions. Updated the UML comparison and corrected the anonymous `Selector` proof to refer to `SmartHomeLookupTest.findSupportsAnonymousSelectorImplementation`. `mvn javadoc:javadoc` completed successfully at that time; after later repository changes, rerun it and recheck all public API documentation before considering documentation complete.
+
+PROMPT 19
+
+Please make a plan in small steps of everything that still needs to be done, also add this prompt and the outcome to the ai log doc.
+
+OUTCOME 19
+
+Reviewed the current assignment/spec requirements and repository contents. The remaining work is to reconcile the current domain APIs with the UML (including abstract `Device`/`Describable`, `double` power usage, thermostat min/max accessors, room removal by device ID, `void` room removal, and the public `HomeStats(Collection<Device>)` constructor), then adapt service/UI callers and tests. After API alignment, close any remaining behavioral and exception-message test gaps, review manual UI error recovery, bring Javadocs and `DECISIONS.md` up to date, and rerun `mvn test`, `mvn javadoc:javadoc`, and `mvn verify` including review of the JaCoCo report. This entry records a plan only; no implementation or test execution was performed for Prompt 19.
+
+PROMPT 20
+
+Make `Device` abstract and implement `Describable`; change power-usage fields, accessors, and constructors to `double`. Update device tests to instantiate concrete device types.
