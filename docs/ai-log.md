@@ -363,3 +363,11 @@ Run `mvn test`, `mvn javadoc:javadoc`, and `mvn verify`; review `target/site/jac
 OUTCOME 27
 
 Ran `mvn test` (48 tests passed), `mvn javadoc:javadoc` (success), and `mvn verify` (48 tests passed; JaCoCo report generated). Reviewed `target/site/jacoco/index.html`, which reports 63% instruction coverage and 45% branch coverage. Created a fresh local clone from the clean `main` HEAD and confirmed `mvn verify` succeeds there with all 48 tests. Recorded these validation results in this focused documentation change.
+
+PROMPT 28
+
+Please solve the UI gap and implement a method for setting a thermostat's target.
+
+OUTCOME 28
+
+Added a console menu action to set a thermostat target by device ID, using the existing service method and preserving all previous menu options. Added UI integration tests for successful updates, non-thermostat IDs, unknown IDs, out-of-range temperatures, and recovery to the menu. Documented the menu addition as a resolution of the gap between the thermostat workflow requirement and the supplied menu image.

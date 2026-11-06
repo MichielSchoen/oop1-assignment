@@ -50,8 +50,9 @@ public class ConsoleUserInterface {
                     case 8 -> showStats();
                     case 9 -> addRoom();
                     case 10 -> removeRoom();
+                    case 11 -> setTargetTemperature();
                     case 0 -> running = false;
-                    default -> System.out.println("Invalid choice. Enter a number from 0 to 10.");
+                    default -> System.out.println("Invalid choice. Enter a number from 0 to 11.");
                 }
             } catch (IllegalArgumentException exception) {
                 System.out.println("Invalid input: " + exception.getMessage());
@@ -74,6 +75,7 @@ public class ConsoleUserInterface {
                 8. Stats (avg power usage and count by type)
                 9. Add a room (by name)
                 10. Remove a room (by name)
+                11. Set a thermostat target temperature
                 0. Exit""");
     }
 
@@ -131,6 +133,15 @@ public class ConsoleUserInterface {
             } else {
                 System.out.println("No device found with that id.");
             }
+        }
+    }
+
+    private void setTargetTemperature() throws DeviceNotFoundException {
+        Integer id = readInteger("Thermostat device id: ");
+        Double target = readDouble("Target temperature (°C): ");
+        if (id != null && target != null) {
+            smartHomeService.setTargetTemperature(id, target);
+            System.out.println("Target temperature updated to " + target + " °C.");
         }
     }
 

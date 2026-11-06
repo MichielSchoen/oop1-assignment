@@ -34,3 +34,10 @@
 - **Decision:** Reject non-finite device power usage, thermostat range bounds, and thermostat target temperatures with `IllegalArgumentException`.
 - **Reason:** NaN and infinity are not meaningful watts or temperatures and could produce misleading sorting, totals, averages, and validation results.
 - **Proving tests:** `DeviceNameValidationTest.constructorAndSetterRejectNegativePowerUsage`, `DeviceNameValidationTest.thermostatConstructorRejectsInvalidRanges`, and `DeviceNameValidationTest.thermostatRejectsTargetsOutsideRange`.
+
+## Setting a thermostat target from the console
+
+- **Question:** The supplied menu image does not show a target-temperature action, although the specification requires thermostat target updates and the service exposes that operation. How can users perform the thermostat workflow through the UI?
+- **Decision:** Add a menu option to set a thermostat target by device ID, while retaining all existing menu choices and the `0` exit action.
+- **Reason:** This makes the specified thermostat operation available to console users without changing existing actions.
+- **Proving tests:** `ConsoleUserInterfaceTest.menuCanSetThermostatTargetTemperature` and `ConsoleUserInterfaceTest.invalidThermostatUpdatesReportErrorsAndReturnToMenu`.

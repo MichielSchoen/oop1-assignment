@@ -139,6 +139,7 @@ The console user interface must:
 
 - present the menu as shown in the provided `console-user-interface.png`
 - support user interaction with the home management features
+- allow users to change a thermostat target temperature by device ID
 - never crash on invalid input, including but not limited to:
   - non-numeric menu input
   - unknown room ids or names
@@ -147,6 +148,7 @@ The console user interface must:
   - invalid ids or device selection
 - display clear error messages when invalid input or rejected operations occur
 - return the user to the main menu after an error instead of terminating the program
+- provide a menu action for setting a thermostat target, prompting for its device ID and target temperature
 
 The UI must validate and handle all user actions in a fail-safe way.
 
