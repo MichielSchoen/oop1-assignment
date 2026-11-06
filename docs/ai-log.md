@@ -32,8 +32,17 @@ Follow these steps:
 
 The goal is to produce a detailed, structured, and implementation-ready `specs.md` that can serve as the foundation for the subsequent spec-driven development process.
 
+OUTCOME 1
+
+Created `docs/spec.md` from `INSTRUCTIONS.md`, organizing the assignment requirements into functional behavior, constraints, workflows, exceptions, testing, acceptance criteria, and open decisions. No application code was implemented as part of this step.
+
 PROMPT 2
+
 if it were up to you, what is the place youd suggest to start with this project, making sure to take it small steps at a time
+
+OUTCOME 2
+
+Recommended a small-step sequence beginning with domain validation, then rooms and SmartHome operations, followed by service/UI work. This was guidance only; no files were changed.
 
 PROMPT 3
 
@@ -101,6 +110,10 @@ Do not start implementing project features.
 
 Your final result should be a project-specific instruction document that enables GitHub Copilot to understand the repository and work consistently within its established architecture, conventions, and specifications.
 
+OUTCOME 3
+
+Created `.github/copilot-instructions.md` describing the observed Java/Maven setup, project layout, assignment constraints, coding/testing expectations, and spec-driven workflow.
+
 PROMPT 4
 
 Add the core classes without behavior yet:
@@ -111,9 +124,17 @@ Add the core classes without behavior yet:
   - `SmartHome` 
 Please Only add the most basic skeleton of the core classes
 
+OUTCOME 4
+
+Created initial `Device`, `LightDevice`, `ThermostatDevice`, `Room`, and `SmartHome` skeletons in `nl.inholland.oop1`, with placeholder methods. The initial skeletons were intentionally incomplete.
+
 PROMPT 5
 
 please add the checked exceptions, now
+
+OUTCOME 5
+
+Added checked device-not-found, room-not-found, and room-not-empty exceptions with the required message formats, and declared the applicable exceptions on SmartHome operations. `mvn clean test` passed at that point.
 
 PROMPT 6
 
@@ -121,11 +142,19 @@ Implement first: `Device` + `ThermostatDevice`
 - Start with validation rules:
   - name not null/empty
 
+OUTCOME 6
+
+Implemented device name validation. Added tests to the existing device validation test class; the targeted test run passed.
+
 PROMPT 7
 
 now add these rules to the same files: power usage not negative
   - thermostat range valid
   - target temperature inside allowed range
+
+OUTCOME 7
+
+Implemented non-negative power validation, thermostat range validation, minimum-temperature target initialization, and target-range validation. The targeted test run passed.
 
 PROMPT 8
 
@@ -184,113 +213,87 @@ For tasks requiring investigation or decision-making, structure your response as
 5. **Verification:** Report the checks performed and their results.
 Be decisive, efficient, and focused on delivering a result.
 
+OUTCOME 8
+
+Extended `.github/copilot-instructions.md` with the requested guidance on purposeful investigation, bounded searches, practical decisions, prioritizing implementation, stop criteria, and response format.
+
 PROMPT 9
 
 now add the following to the room.java file: Add unique names
 - Prevent removal when non-empty
 - Expose the device list without allowing replacement of the internal collection
 
+OUTCOME 9
+
+Added room-name validation and an unmodifiable snapshot from `Room.getDevices()`. Wired room-name uniqueness and non-empty-room removal protection through `SmartHome`; added room tests. The targeted room test run passed.
+
 PROMPT 10
 
 Please now start generating the smarthome.java file to include the id generation
+
+OUTCOME 10
+
+Implemented home-wide ID generation in `SmartHome.addDeviceToRoom`, overriding preset IDs and assigning `1` to the first device. Added tests for first ID, cross-room sequencing, preset-ID replacement, and an unknown room; all targeted tests passed.
 
 PROMPT 11
 
 now add getbyid and find/filter
 
+OUTCOME 11
+
+Implemented `getById`, `getAllDevices`, and `find`, including the required missing-device exception and null-filter behavior. Added lookup/filter tests; the combined lookup and ID tests passed.
+
 PROMPT 12
 
 please implement the sorting and the total power usage
+
+OUTCOME 12
+
+Implemented descending power-use sorting with name as the tie-breaker, and total power usage. Added tests for ordering, ties, multiple rooms, and the empty-home total; all targeted tests passed.
 
 PROMPT 13
 
 now, lastly add the stats and any other methods in smarthome that are not implemented yet
 
+OUTCOME 13
+
+Implemented device removal, generic type lookup, thermostat target updates, and snapshot statistics. Recorded the choices for non-thermostat target-setting and zero-count type entries in `docs/DECISIONS.md`. The full suite passed at that point (33 tests).
+
 PROMPT 14
 
 please make the changes that the uml api comparison identified only to the files that already exist, do not create more files
+
+OUTCOME 14
+
+Compared the domain API with the UML and recorded the differences and ID/anonymous-selector decisions in `docs/DECISIONS.md`. API-alignment work was attempted in existing domain files. Follow-up inspection showed that repository contents and signatures had changed between steps, so the recorded comparison needed later reconciliation against the live checkout; it should not be treated as proof that every UML signature was aligned.
 
 PROMPT 15
 
 **Implement and test the service layer.** Add the UML-required service interface and `SmartHomeServiceImpl`; inject `SmartHome` through its constructor. Test the implementation in isolation using Mockito, as required.
 
-PROMPT 16 
+OUTCOME 15
+
+Added the service interface and implementation with constructor-injected `SmartHome`, along with the functional `Selector` API and an anonymous selector for power filtering. Added Mockito-based service delegation tests. The targeted service tests passed, followed by a full suite of 40 passing tests.
+
+PROMPT 16
 
 **Build the console workflow and wiring.** Implement `ConsoleUserInterface` to match `console-user-interface.png`, handle invalid input without exiting, and have `Application` create and connect the objects.
+
+OUTCOME 16
+
+Implemented the menu-driven console workflow and application startup wiring. Manually exercised invalid menu input, unknown device IDs, malformed numeric input, and invalid thermostat ranges; each displayed an error and returned to the menu. `mvn test` passed all 40 tests.
 
 PROMPT 17
 
 **Close test gaps.** Ensure business rules and edge cases are covered, including exact exception messages, room/device not-found cases, invalid input, sorting ties, and stats snapshots. The assignment excludes `Application` and the console UI from unit-test requirements, but the UI should still be exercised manually.
 
+OUTCOME 17
+
+Added tests for missing-room exception messages, inclusive thermostat range boundaries, and anonymous `Selector` filtering. Manually exercised invalid console input and menu recovery. `mvn verify` passed all 43 tests and generated the JaCoCo report.
+
 PROMPT 18
 
 **Complete documentation.** Add meaningful Javadocs to every public class and method, and verify that the AI log and decisions reflect the actual development choices.
-
-OUTCOMES 1–17
-
-### Prompt 1 — Project specification
-
-Created `docs/spec.md` from `INSTRUCTIONS.md`, organizing the assignment requirements into functional behavior, constraints, workflows, exceptions, testing, acceptance criteria, and open decisions. No application code was implemented as part of this step.
-
-### Prompt 2 — Suggested starting point
-
-Recommended a small-step sequence beginning with domain validation, then rooms and SmartHome operations, followed by service/UI work. This was guidance only; no files were changed.
-
-### Prompt 3 — Copilot repository instructions
-
-Created `.github/copilot-instructions.md` describing the observed Java/Maven setup, project layout, assignment constraints, coding/testing expectations, and spec-driven workflow.
-
-### Prompt 4 — Core class skeletons
-
-Created initial `Device`, `LightDevice`, `ThermostatDevice`, `Room`, and `SmartHome` skeletons in `nl.inholland.oop1`, with placeholder methods. The initial skeletons were intentionally incomplete.
-
-### Prompt 5 — Checked exceptions
-
-Added checked device-not-found, room-not-found, and room-not-empty exceptions with the required message formats, and declared the applicable exceptions on SmartHome operations. `mvn clean test` passed at that point.
-
-### Prompts 6–7 — Device and thermostat validation
-
-Implemented device name and non-negative power validation, thermostat range validation, minimum-temperature target initialization, and target-range validation. Added tests to the existing device validation test class; the targeted test run passed.
-
-### Prompt 8 — Efficient Copilot workflow instructions
-
-Extended `.github/copilot-instructions.md` with the requested guidance on purposeful investigation, bounded searches, practical decisions, prioritizing implementation, stop criteria, and response format.
-
-### Prompt 9 — Room rules
-
-Added room-name validation and an unmodifiable snapshot from `Room.getDevices()`. Wired room-name uniqueness and non-empty-room removal protection through `SmartHome`; added room tests. The targeted room test run passed.
-
-### Prompt 10 — Device ID generation
-
-Implemented home-wide ID generation in `SmartHome.addDeviceToRoom`, overriding preset IDs and assigning `1` to the first device. Added tests for first ID, cross-room sequencing, preset-ID replacement, and an unknown room; all targeted tests passed.
-
-### Prompt 11 — Device lookup and filtering
-
-Implemented `getById`, `getAllDevices`, and `find`, including the required missing-device exception and null-filter behavior. Added lookup/filter tests; the combined lookup and ID tests passed.
-
-### Prompt 12 — Sorting and power total
-
-Implemented descending power-use sorting with name as the tie-breaker, and total power usage. Added tests for ordering, ties, multiple rooms, and the empty-home total; all targeted tests passed.
-
-### Prompt 13 — Remaining SmartHome operations and statistics
-
-Implemented device removal, generic type lookup, thermostat target updates, and snapshot statistics. Recorded the choices for non-thermostat target-setting and zero-count type entries in `docs/DECISIONS.md`. The full suite passed at that point (33 tests).
-
-### Prompt 14 — UML API comparison
-
-Compared the domain API with the UML and recorded the differences and ID/anonymous-selector decisions in `docs/DECISIONS.md`. API-alignment work was attempted in existing domain files. Follow-up inspection showed that repository contents and signatures had changed between steps, so the recorded comparison needed later reconciliation against the live checkout; it should not be treated as proof that every UML signature was aligned.
-
-### Prompt 15 — Service layer
-
-Added the service interface and implementation with constructor-injected `SmartHome`, along with the functional `Selector` API and an anonymous selector for power filtering. Added Mockito-based service delegation tests. The targeted service tests passed, followed by a full suite of 40 passing tests.
-
-### Prompt 16 — Console workflow and application wiring
-
-Implemented the menu-driven console workflow and application startup wiring. Manually exercised invalid menu input, unknown device IDs, malformed numeric input, and invalid thermostat ranges; each displayed an error and returned to the menu. `mvn test` passed all 40 tests.
-
-### Prompt 17 — Business-rule test gaps
-
-Added tests for missing-room exception messages, inclusive thermostat range boundaries, and anonymous `Selector` filtering. Manually exercised invalid console input and menu recovery. `mvn verify` passed all 43 tests and generated the JaCoCo report.
 
 OUTCOME 18
 
@@ -307,6 +310,10 @@ Reviewed the current assignment/spec requirements and repository contents. The r
 PROMPT 20
 
 Make `Device` abstract and implement `Describable`; change power-usage fields, accessors, and constructors to `double`. Update device tests to instantiate concrete device types.
+
+OUTCOME 20
+
+Made `Device` abstract and implemented `Describable`; changed power usage fields, accessors, and constructors to `double`, and updated device tests to use concrete device types.
 
 PROMPT 21
 
